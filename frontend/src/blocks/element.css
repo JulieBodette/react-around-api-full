@@ -1,0 +1,99 @@
+.element {
+  /*object-fit: cover;
+  width: 100%;
+  max-height: 361px;*/
+  display: grid; /*removes the space between the 2 objects (picture and white rectangle) */
+}
+
+.element__image {
+  /*With this as a buttom with backgroung-image instead of an <img> tag, was able to get min-height to work. <img> needed exact height and width set. */
+  min-height: 282px; /*image is correct size and stays in grid box */
+  min-width: 282px; /*initilly had set max height only, but need max width if getting images of varying sizes from internet */
+  /*tested with small image- min-height + width is OK*/
+  border-radius: 10px 10px 0px 0px; /* top rounded corners */
+  margin: 0px;
+  padding: 0px;
+  /*make background image cover the entire space */
+  background-size: cover;
+  background-repeat: no-repeat;
+  /*reset button styles*/
+  border: none;
+  cursor: pointer; /*change cursor to show user the element is interactive*/
+}
+
+.element__rectangle {
+  /*no min height because the height is set by the margins of the text inside. min height would be needed if rectangle was empty */
+  background: #ffffff;
+  margin: 0px;
+  padding: 0px;
+  border-radius: 0px 0px 10px 10px; /* bottom rounded corners */
+  display: flex; /*use to align the text and heart next to each other */
+  justify-content: space-between;
+}
+
+.element__text {
+  font-family: "Inter", "Arial", sans-serif; /*fallback fonts */
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  color: #000000;
+  margin: 25px 0px 31px 21px; /* top right bottom left */ /*these margins expand the white rectangle */
+  padding: 0px;
+  /*add ... if text is too long */
+  max-width: 220px; /*not an exact calculated value, but tested it and it looks good should be less than 246*/
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.element__like {
+  margin: auto 18px auto 0px; /* top right bottom left */
+  padding: 0px; /*reset*/
+  content: url("../images/Heart_disabled.svg"); /*note: you gotta use content if its <img> tag. NOT background-image */
+  /*reset button styles*/
+  border: none;
+  background: transparent;
+}
+
+.element__like:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.element__like-image /*Fix issue of clicks being detected on the image which had no class*/ {
+  /*this class goes on the image, not the button*/
+}
+
+.element__like-text {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.element__trash-image /*Fix issue of clicks being detected on the image which had no class*/ {
+}
+
+.element__like_active {
+  content: url("../images/Heart_active.svg");
+}
+
+.element__trash {
+  position: absolute; /*so it can go on top of picture*/
+  margin: 18px 0px 0px 249px; /* top right bottom left */
+  padding: 0px; /*reset*/
+  z-index: 1; /*on top of picture*/
+  /*reset button styles*/
+  border: none;
+  background: transparent;
+}
+
+.element__trash:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}

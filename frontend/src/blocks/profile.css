@@ -1,0 +1,186 @@
+.profile {
+  display: grid;
+  grid-template-areas: "avatar info add-button";
+  /*set these values on the objects with grid-area:name */
+  margin: 0px auto 46.25px auto; /* top right bottom left */
+  max-width: 902.5px;
+  grid-column-gap: 0px; /*165px;*/
+  grid-template-columns:
+    minmax(auto, 120px)
+    minmax(auto, 580px) /*415 for the content */
+    minmax(auto, 150px);
+  width: fit-content; /*gets rid of extra grid space and allows it to be centered */
+  align-items: center;
+}
+
+.profile__avatar {
+  grid-area: avatar; /*NO QUOTES */
+  border-radius: 50%; /*circular crop */
+  /*make image square so that is is circle crop and not ellipse */
+  width: 120px;
+  height: 120px;
+  object-fit: cover; /*so that image is not stretched */
+}
+
+.profile__image {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0px 30px 0px 0px; /* top right bottom left */
+}
+
+.profile__icon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-image: url("../images/EditAvatarIcon.svg");
+  width: 120px;
+  height: 120px;
+  background-color: #c4c4c4;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  border-radius: 50%; /*circular crop */
+}
+
+.profile__icon:hover {
+  opacity: 0.8;
+}
+
+.profile__info {
+  grid-area: info; /*NO QUOTES */
+  margin: 0px;
+  padding: 0px;
+  display: grid; /*its a grid inside a grid */
+  grid-template-areas:
+    "name edit-button"
+    "title title";
+  grid-column-gap: 18px;
+  width: fit-content; /*gets rid of extra grid space and allows it to be centered */
+}
+
+.profile__info-name {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Inter", "Arial", sans-serif; /*fallback fonts */
+  font-style: normal;
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 48px;
+  /*add "..." if text is too long */
+  max-width: 415px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  grid-area: name;
+  color: white;
+}
+
+.profile__info-title {
+  margin: 16px 0px 0px 0px; /* top right bottom left */
+  padding: 0px;
+  font-family: "Inter", "Arial", sans-serif; /*fallback fonts */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  /*add ... if text is too long */
+  max-width: 415px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  grid-area: title;
+  text-align: left;
+  align-self: start;
+  color: white;
+}
+
+.profile__info-edit-button {
+  background-color: transparent;
+  outline: none;
+  border: 1px solid #ffffff;
+  box-sizing: border-box; /*border-box means border and padding is accounted for in size*/
+  width: 24px;
+  height: 24px;
+  margin: 0px; /*reset*/
+  padding: 0px; /*reset*/
+  cursor: pointer;
+  grid-area: edit-button;
+  align-self: center;
+  margin-top: 6px; /*shift down slightly to align with text. we want the q to stick out beneath */
+}
+
+.profile__info-edit-button:hover {
+  opacity: 0.6;
+}
+
+.profile__add-button {
+  grid-area: add-button; /*NO QUOTES */
+  min-height: 50px;
+  background-color: transparent;
+  outline: none;
+  border: 2px solid #ffffff;
+  box-sizing: border-box; /*border-box means border and padding is accounted for in size*/
+  border-radius: 2px;
+  cursor: pointer; /*mouse changes on hover */
+}
+
+.profile__add-button:hover {
+  opacity: 0.6;
+}
+
+/*styles for 320px screen*/
+@media screen and (max-width: 660px) {
+  .profile {
+    grid-template-areas:
+      "avatar"
+      "info"
+      "add-button";
+    /*grid-row-gap: 30px;*/
+    grid-template-columns: minmax(auto, 282px); /*only one column now */
+    grid-row-gap: 26.25px;
+  }
+
+  .profile__image {
+    margin: 0px 0px 0px 70px; /* top right bottom left */
+  }
+  .profile__avatar {
+    margin: 0px auto 0px auto; /* top right bottom left */
+  }
+
+  .profile__info {
+    grid-column-gap: 10px;
+    justify-content: center; /*center the name and edit box and title */
+    margin: 0 auto; /*somehow this works to center it but align-self:center does not */
+  }
+
+  .profile__info-name {
+    font-size: 22px;
+    line-height: 27px;
+    text-align: center;
+    max-width: 282px; /*add "..." if text is too long */
+    padding: 0px; /*reset */
+    margin: 0px; /*reset */
+  }
+
+  .profile__info-title {
+    margin: 14px 0px 0px 0px; /* top right bottom left */
+    padding: 0px; /*reset */
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    max-width: 282px; /*add "..." if text is too long */
+  }
+
+  .profile__info-edit-button {
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+  }
+
+  .profile__add-button {
+    margin-top: 9.75px;
+  }
+}

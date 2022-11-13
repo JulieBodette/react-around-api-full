@@ -1,0 +1,115 @@
+.login {
+}
+
+.login__submit-button {
+  /*contains all the styles for the button AND the button text */
+  /*w3c validator gives an error if you make the text a seperate <p> tag */
+  background: #ffffff;
+  border: none; /*remove default border styles */
+  border-radius: 2px;
+  min-height: 50px;
+  min-width: 358px;
+  margin: 216px auto 0px auto; /* top right bottom left */
+  font-family: 'Inter', 'Arial', sans-serif; /*fallback fonts */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #000000;
+  cursor: pointer; /*change cursor to show user the element is interactive*/
+}
+
+.login__submit-button:hover {
+  background: #ffffff;
+  opacity: 0.85;
+}
+
+.login__input-text {
+  /* this is the entire input box, you can put the text styles (font and font color) in here */
+  /*also the border styles */
+  margin: 0 auto;
+  min-width: 358px;
+  font-family: 'Inter', 'Arial', sans-serif; /*fallback fonts */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  background: #000000;
+  color: #cccccc;
+  border-style: none none solid none; /*get rid of all borders except bottom */
+  border-bottom: 1px solid rgba(204, 204, 204, 1); /*only way to set border opacity is via rgba-there's no "border opacity" property */
+  /*border opacity is 1 (fully opaque)..yes im pretty sure that's the default */
+}
+
+.login__input-text:last-of-type {
+  margin: 30px auto 0px auto; /* top right bottom left*/
+}
+
+.login__form {
+  /*make the input fields go as column instead of rows */
+  display: flex;
+  flex-direction: column;
+}
+
+.login__title {
+  text-align: center;
+  font-family: 'Inter', 'Arial', sans-serif; /*fallback fonts */
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  color: #ffffff; /*make text black (override default of white)*/
+  padding: 0px;
+  margin: 60px 0px 50px 0px; /* top right bottom left*/
+}
+
+.login__text {
+  font-family: 'Inter', 'Arial', sans-serif; /*fallback fonts */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  /*remove link styles */
+  color: #ffffff;
+  text-decoration: none; /*remove underline */
+  margin: 15px 0px 0px 0px; /* top right bottom left*/
+}
+
+.login__text:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+/*styles for 320px screen*/
+@media screen and (max-width: 660px) {
+  .login__title {
+    font-size: 20px;
+    line-height: 24px;
+    margin: 25px auto 76px auto; /* top right bottom left */
+  }
+
+  .login__form {
+    /*make the input fields go as column instead of rows */
+    margin: 0px 30px 0px 30px; /* top right bottom left */
+  }
+
+  .login__input-text {
+    /* this is the entire input box, you can put the text styles (font and font color) in here */
+    /*also the border styles */
+    min-width: 260px;
+  }
+
+  .login__submit-button {
+    min-height: 46px;
+    min-width: 230px;
+    margin: 46px auto 0px auto; /* top right bottom left */
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .login__input-text:last-of-type {
+    margin: 20px auto 0px auto; /* top right bottom left*/
+  }
+}

@@ -1,0 +1,28 @@
+/*Used for the image popup when you click on an image (shows the full image+title)*/
+/*popup__open and popup__close-button adapted from modal*/
+
+.popup {
+}
+
+.popup__content {
+  /*similar to modal__content but no white background and different margins*/
+  /*width and height are determined by the margins of the objects inside */
+  margin: 90px auto auto auto; /* top right bottom left */
+  position: relative; /*so that X close button is placed relative to this box */
+}
+
+.popup__caption {
+  max-width: 330px; /*needs to be set to smaller than box size so that margin auto works*/
+  font-family: 'Inter', 'Arial', sans-serif; /*fallback fonts */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  padding: 0px;
+  margin: 10px 0px 0px 0px; /* top right bottom left not centered-aligned to left*/
+}
+
+.popup__image {
+  max-width: 75vw;
+  max-height: 75vh;
+}

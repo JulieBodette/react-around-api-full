@@ -1,0 +1,25 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(282px, 1fr));
+  grid-column-gap: 17px;
+  grid-row-gap: 21px;
+  width: fit-content; /*gets rid of extra grid space and allows it to be centered */
+  margin: 0 auto;
+  max-width: 880px; /*set re:reviewer feedback. grid was already sized right based on objects inside. */
+}
+
+/*2 columns at mid size screen */
+@media screen and (max-width: 980px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(282px, 1fr));
+  }
+}
+
+/*styles for 320px screen*/
+@media screen and (max-width: 660px) {
+  /*only 1 column*/
+  .grid {
+    grid-template-columns: minmax(282px, 1fr);
+    grid-row-gap: 20px;
+  }
+}

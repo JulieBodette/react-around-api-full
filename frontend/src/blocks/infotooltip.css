@@ -1,0 +1,63 @@
+.infotooltip__text {
+  max-width: 430px; /*needs to be set to smaller than box size so that margin auto works*/
+  height: 58px;
+  font-family: 'Inter', 'Arial', sans-serif; /*fallback fonts */
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  color: #000000;
+  padding: 0px;
+  margin: 0px auto 60px auto; /* top right bottom left*/
+}
+
+.infotooltip__content {
+  /*width and height are determined by the margins of the objects inside */
+  margin: auto auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+  position: relative; /*so that X close button is placed relative to this box */
+}
+
+.infotooltip__image {
+  margin: 60px 155px 22px 155px; /* top right bottom left */
+}
+
+.infotooltip__close-button {
+  padding: 0px; /*reset margin and padding so the image is correct size */
+  margin: 0px;
+  display: block;
+  border: none;
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  position: absolute;
+  /*place in upper right corner, negative indicates outside box */
+  top: -35px;
+  right: -35px;
+  cursor: pointer;
+}
+.infotooltip__close-button:hover {
+  opacity: 0.6;
+}
+
+/*styles for 320px screen*/
+@media screen and (max-width: 660px) {
+  .infotooltip__image {
+    margin: 50px 80px 40px 80px; /* top right bottom left */
+  }
+
+  .infotooltip__text {
+    max-width: 244px; /*needs to be set to smaller than box size so that margin auto works*/
+    height: 44px;
+    font-size: 20px;
+    line-height: 24px;
+  }
+  /*move the X (close button) to the center */
+  .infotooltip__close-button {
+    /*place in upper right corner, negative indicates outside box */
+    top: -50px;
+    right: 130px;
+  }
+}

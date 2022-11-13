@@ -1,0 +1,59 @@
+.header {
+  max-width: 880px; /*based on 1280px figma */
+  margin: 0px auto 40px auto; /* top right bottom left */
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7); /*need rgba to set opacity */
+  display: grid;
+  grid-template-areas: 'image email login-text';
+  grid-template-columns: 173px auto 70px; /*set sizes for the columns on the far left and right, middle expands to fill the space */
+  grid-column-gap: 24px; /*spacing between email and login-text*/
+}
+
+.header__image {
+  grid-area: image;
+  margin: 45px 0px 41px 0px; /* top right bottom left */
+}
+
+.header__email {
+  grid-area: email;
+  font-family: 'Inter', 'Arial', sans-serif; /*fallback fonts */
+  align-self: flex-end;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  margin-bottom: 46px;
+  color: #ffffff;
+  text-align: right;
+}
+
+.header__login-text {
+  grid-area: login-text;
+  margin-bottom: 46px;
+  align-self: flex-end;
+  font-family: 'Inter', 'Arial', sans-serif; /*fallback fonts */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  /*change default look of link */
+  color: #ffffff; /*make text white instead of purple */
+  text-decoration: none; /*remove underline */
+  text-align: right;
+}
+
+.header__login-text:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+/*styles for 320px screen*/
+@media screen and (max-width: 660px) {
+  .header {
+    margin: 0px auto 42px auto; /* top right bottom left */
+  }
+
+  .header__image {
+    height: 24px;
+    margin: 28px 0px 32px 27px; /* top right bottom left */
+  }
+}

@@ -1,0 +1,13 @@
+@import './vendor/normalize.css';
+@import './fonts/inter.css';
+@import './blocks/page.css';
+@import './blocks/header.css';
+@import './blocks/profile.css';
+@import './blocks/grid.css';
+@import './blocks/element.css';
+@import './blocks/modal.css';
+@import './blocks/popup.css';
+@import './blocks/footer.css';
+@import './blocks/login.css';
+@import './blocks/register.css';
+@import './blocks/infotooltip.css';

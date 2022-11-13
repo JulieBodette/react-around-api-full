@@ -1,0 +1,27 @@
+.footer {
+  margin: 67px auto 60px auto; /* top right bottom left */
+  max-width: 880px; /*max width must be less than width of page or margin:auto does not center it */
+}
+
+.footer__text {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Inter", "Arial", sans-serif; /*fallback fonts */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  color: #545454;
+}
+
+/*styles for 320px screen*/
+@media screen and (max-width: 660px) {
+  .footer {
+    margin: 50px auto 36px auto; /* top right bottom left */
+    max-width: 282px; /*max width must be less than width of page or margin:auto does not center it */
+  }
+  .footer__text {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}

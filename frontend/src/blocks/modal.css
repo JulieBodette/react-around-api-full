@@ -1,0 +1,190 @@
+.modal {
+  display: flex; /*needed so that margin:auto works to center the box */
+  /*make the background look faded by putting opacity over it*/
+  background-color: rgba(0, 0, 0, 0.5);
+  /*^^Do NOT do this as a seperate opacity command or it applies to the modal__content as well */
+  /*cover entire screen */
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  /*end cover entire screen commands */
+  pointer-events: none; /*can't interact with closed popup*/
+  position: fixed; /*does not move when you scroll */
+  z-index: 2; /*go on top of trashcan icons */
+  visibility: hidden; /*invisible*/
+  opacity: 0; /*opacity has numeric value, so we can animate it*/
+  transition: visibility 0s linear 0.5s, opacity 0.5s linear;
+}
+
+.modal_open {
+  /*make it visible */
+  /*you could also use justify-content + align-items center to align it */
+  visibility: visible; /*visible*/
+  opacity: 1; /*opacity has numeric value, so we can animate it*/
+  pointer-events: all; /*can interact with opened popup*/
+  transition-delay: 0s;
+}
+
+.modal__content {
+  /*width and height are determined by the margins of the objects inside */
+  margin: auto auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+  position: relative; /*so that X close button is placed relative to this box */
+}
+
+.modal__title {
+  max-width: 330px; /*needs to be set to smaller than box size so that margin auto works*/
+  font-family: "Inter", "Arial", sans-serif; /*fallback fonts */
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  color: #000000; /*make text black (override default of white)*/
+  padding: 0px;
+  margin: 34px 0px 54px 36px; /* top right bottom left not centered-aligned to left*/
+}
+
+.modal__submit-button {
+  /*contains all the styles for the button AND the button text */
+  /*w3c validator gives an error if you make the text a seperate <p> tag */
+  background: #000000;
+  border: none; /*remove default border styles */
+  border-radius: 2px;
+  min-height: 50.15px;
+  min-width: 358px;
+  margin: 48px auto 0px auto; /* top right bottom left */
+  font-family: "Inter", "Arial", sans-serif; /*fallback fonts */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #ffffff;
+  cursor: pointer; /*change cursor to show user the element is interactive*/
+}
+
+.modal__submit-button_disabled {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #000000;
+  border-radius: 2px;
+  opacity: 0.2;
+  /*attempt to disable button via css */
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.modal__submit-button:hover {
+  opacity: 0.6;
+}
+
+.modal__close-button {
+  padding: 0px; /*reset margin and padding so the image is correct size */
+  margin: 0px;
+  display: block;
+  border: none;
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  position: absolute;
+  /*place in upper right corner, negative indicates outside box */
+  top: -35px;
+  right: -35px;
+  cursor: pointer;
+}
+.modal__close-button :hover {
+  opacity: 0.6;
+}
+
+.modal__form {
+  /*make the input fields go as column instead of rows */
+  display: flex;
+  flex-direction: column;
+  margin: 0px 36px 36.51px 36px; /* top right bottom left */
+}
+
+.modal__error {
+  visibility: hidden;
+  font-family: "Inter", "Arial", sans-serif; /*fallback fonts */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #ff0000;
+}
+
+.modal__error_visible {
+  visibility: visible;
+  font-family: "Inter", "Arial", sans-serif; /*fallback fonts */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #ff0000;
+}
+
+.modal__input-text {
+  /* this is the entire input box, you can put the text styles (font and font color) in here */
+  /*also the border styles */
+  margin: 0 auto;
+  min-width: 358px;
+  font-family: "Inter", "Arial", sans-serif; /*fallback fonts */
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+  border-style: none none solid none; /*get rid of all borders except bottom */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2); /*only way to set border opacity is via rgba-there's no "border opacity" property */
+}
+
+.modal__input-text::placeholder {
+  /*Add card modal uses placeholders but edit profile does not */
+  color: #c4c4c4;
+}
+.modal__input-text:last-of-type {
+  margin: 30px auto 0px auto; /* top right bottom left */
+}
+
+/*styles for 320px screen*/
+@media screen and (max-width: 660px) {
+  .modal__title {
+    max-width: 238px; /*needs to be set to smaller than box size so that margin auto works*/
+    font-size: 18px;
+    line-height: 22px;
+    margin: 25px auto 76px auto; /* top right bottom left */
+  }
+
+  .modal__form {
+    /*make the input fields go as column instead of rows */
+    margin: 0px 22px 25px 22px; /* top right bottom left */
+  }
+
+  .modal__input-text {
+    /* this is the entire input box, you can put the text styles (font and font color) in here */
+    /*also the border styles */
+    min-width: 238px;
+  }
+
+  .modal__submit-button {
+    min-height: 46px;
+    min-width: 238px;
+    margin: 46px auto 0px auto; /* top right bottom left */
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .modal__button-text {
+    font-size: 14px;
+    line-height: 17px;
+  }
+  .modal__close-button {
+    /*move to be above modal panel and make it smaller */
+    top: -50.38px;
+    right: 0px;
+    width: 26px;
+    height: 26px;
+  }
+}
