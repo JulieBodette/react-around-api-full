@@ -1,10 +1,12 @@
 const User = require('../models/user');
-//const bcryptjs = require('bcryptjs'); // importing bcrypt- need it to hash passwords
+const bcryptjs = require('bcryptjs'); // importing bcrypt- need it to hash passwords
 const { NOT_FOUND, SERVER_ERROR, INVALID_INPUT } = require('../utils');
 
 const createUser = (req, res) => {
   const { name, about, avatar, email, password } = req.body; // get name etc out of the request body
-  User.create({ name, about, avatar, email, password })
+  bcryptjs
+    .hash(password, 10)
+    .then((hash) => User.create({ name, about, avatar, email, password: hash }))
     .then((user) => res.send({ data: user })) // returns to the client the user they just created
     .catch((err) => {
       if (err.name === 'ValidationError') {
