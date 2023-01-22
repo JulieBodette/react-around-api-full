@@ -1,9 +1,10 @@
 const User = require('../models/user');
+//const bcryptjs = require('bcryptjs'); // importing bcrypt- need it to hash passwords
 const { NOT_FOUND, SERVER_ERROR, INVALID_INPUT } = require('../utils');
 
 const createUser = (req, res) => {
-  const { name, about, avatar } = req.body; // get name etc out of the request body
-  User.create({ name, about, avatar })
+  const { name, about, avatar, email, password } = req.body; // get name etc out of the request body
+  User.create({ name, about, avatar, email, password })
     .then((user) => res.send({ data: user })) // returns to the client the user they just created
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -26,7 +27,7 @@ const getUsers = (req, res) => {
 
 const getUser = (req, res) => {
   User.findById(req.params.id)
-    .orFail()// throws an error if user does not exist
+    .orFail() // throws an error if user does not exist
     .then((users) => res.send({ data: users })) // returns to the client all the users
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -49,13 +50,15 @@ const updateUserInfo = (req, res) => {
       new: true, // the then handler receives the updated entry as input
       runValidators: true, // the data will be validated before the update
       upsert: true, // if the user entry wasn't found, it will be created
-    },
+    }
   )
-    .orFail()// throws an error if user does not exist
+    .orFail() // throws an error if user does not exist
     .then((user) => {
-    // if the json that the client sent does not have an about ie {"about":"info here"}
+      // if the json that the client sent does not have an about ie {"about":"info here"}
       if (!req.body.about) {
-        res.status(INVALID_INPUT).send({ message: 'Error: You did not include an about field' });
+        res
+          .status(INVALID_INPUT)
+          .send({ message: 'Error: You did not include an about field' });
       } else {
         res.send({ data: user });
       }
@@ -67,10 +70,12 @@ const updateUserInfo = (req, res) => {
       } else if (err.name === 'DocumentNotFoundError') {
         res.status(NOT_FOUND).send({ message: 'That user ID does not exist' });
       } else if (err.name === 'ValidationError') {
-        res.status(INVALID_INPUT).send({ message: 'Invalid input. Make sure the about field is minimum 2 and max 30 characters.' });
-      }
-      else{
-      res.status(SERVER_ERROR).send({ message: err.message });
+        res.status(INVALID_INPUT).send({
+          message:
+            'Invalid input. Make sure the about field is minimum 2 and max 30 characters.',
+        });
+      } else {
+        res.status(SERVER_ERROR).send({ message: err.message });
       }
     });
 };
@@ -84,12 +89,14 @@ const updateUserAvatar = (req, res) => {
       new: true, // the then handler receives the updated entry as input
       runValidators: true, // the data will be validated before the update
       upsert: true, // if the user entry wasn't found, it will be created
-    },
+    }
   )
     .then((user) => {
-    // if the json that the client sent does not have an about ie {"avatar":"http://link-to-image"}
+      // if the json that the client sent does not have an about ie {"avatar":"http://link-to-image"}
       if (!req.body.avatar) {
-        res.status(INVALID_INPUT).send({ message: 'Error: You did not include an avatar field' });
+        res
+          .status(INVALID_INPUT)
+          .send({ message: 'Error: You did not include an avatar field' });
       } else {
         res.send({ data: user });
       }
@@ -101,15 +108,19 @@ const updateUserAvatar = (req, res) => {
       } else if (err.name === 'DocumentNotFoundError') {
         res.status(NOT_FOUND).send({ message: 'That user ID does not exist' });
       } else if (err.name === 'ValidationError') {
-        res.status(INVALID_INPUT).send({ message: 'Invalid input. Make sure the avatar field is a valid url' });
-      }
-      else
-      {
-      res.status(SERVER_ERROR).send({ message: err.message });
+        res.status(INVALID_INPUT).send({
+          message: 'Invalid input. Make sure the avatar field is a valid url',
+        });
+      } else {
+        res.status(SERVER_ERROR).send({ message: err.message });
       }
     });
 };
 
 module.exports = {
-  createUser, getUsers, getUser, updateUserInfo, updateUserAvatar,
+  createUser,
+  getUsers,
+  getUser,
+  updateUserInfo,
+  updateUserAvatar,
 };
