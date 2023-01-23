@@ -1,6 +1,41 @@
 const User = require('../models/user');
 const bcryptjs = require('bcryptjs'); // importing bcrypt- need it to hash passwords
+const jwt = require('jsonwebtoken');
 const { NOT_FOUND, SERVER_ERROR, INVALID_INPUT } = require('../utils');
+
+const login = (req, res) => {
+  const { email, password } = req.body; // get email and password out of the request body
+  //authenticate the email and password
+  User.findOne({ email })
+    .then(async (user) => {
+      if (!user) {
+        // user not found
+        // fire the catch block with an error
+        return Promise.reject(new Error('Incorrect password or email'));
+      }
+      // user found - check if the password is correct
+      try {
+        await bcryptjs.compare(password, user.password);
+        //returns true if password the user entered matches the one in the database, else false
+        //The email and password are correct.
+        //create a JSON web token (JWT) that expires after a week.
+        const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
+          expiresIn: '7d',
+        });
+        res.status(200).send(token);
+        //could also do res.send(token);- same thing, status is 200 be default
+      } catch {
+        //password incorrect
+        return Promise.reject(new Error('Incorrect password or email'));
+        //If the password is incorrect, fire the catch block with an error
+      }
+    })
+
+    .catch((err) => {
+      // return an authentication error
+      res.status(401).send({ message: err.message });
+    });
+};
 
 const createUser = (req, res) => {
   const { name, about, avatar, email, password } = req.body; // get name etc out of the request body
@@ -125,4 +160,5 @@ module.exports = {
   getUser,
   updateUserInfo,
   updateUserAvatar,
+  login,
 };
