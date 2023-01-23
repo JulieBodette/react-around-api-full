@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // unencode the URL so we ca
 
 //authorization
 app.post('/signin', login);
-app.post('/signup', createUser);
+app.post('/signup', createUser); // POST a new user to the database. include json with name about, link, email, password
 
 // connect the routers
 app.use('/', cardsRouter);
