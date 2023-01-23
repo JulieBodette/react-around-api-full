@@ -14,17 +14,18 @@ const login = (req, res) => {
         return Promise.reject(new Error('Incorrect password or email'));
       }
       // user found - check if the password is correct
-      try {
-        await bcryptjs.compare(password, user.password);
-        //returns true if password the user entered matches the one in the database, else false
-        //The email and password are correct.
-        //create a JSON web token (JWT) that expires after a week.
+
+      var isPasswordCorrect = bcryptjs.compareSync(password, user.password);
+      //returns true if password the user entered matches the one in the database, else false
+      //The email and password are correct.
+      //create a JSON web token (JWT) that expires after a week.
+      if (isPasswordCorrect) {
         const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
           expiresIn: '7d',
         });
         res.status(200).send(token);
-        //could also do res.send(token);- same thing, status is 200 be default
-      } catch {
+        //could also do res.send(token);- same thing, status is 200 by default
+      } else {
         //password incorrect
         return Promise.reject(new Error('Incorrect password or email'));
         //If the password is incorrect, fire the catch block with an error
