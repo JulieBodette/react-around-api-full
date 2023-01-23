@@ -4,20 +4,22 @@ const validator = require('validator');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: false,
+    default: 'Jacques Cousteau',
     minlength: 2,
     maxlength: 30,
   },
-
   about: {
     type: String,
-    required: true,
+    required: false,
+    default: 'Explorer',
     minlength: 2,
     maxlength: 30,
   },
   avatar: {
     type: String,
-    required: true,
+    required: false,
+    default: 'https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg',
     validate: {
       validator(v) {
         return validator.isURL(v);
