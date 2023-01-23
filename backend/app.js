@@ -35,13 +35,7 @@ mongoose.connect('mongodb://localhost:27017/aroundb');
 app.use(bodyParser.json()); // when we get a POST body, we can pull it in as JSON
 app.use(bodyParser.urlencoded({ extended: true })); // unencode the URL so we can get our JSON out
 
-// every time a request comes in, manually set the user to this id
-// temporary solution until we enable authorization
-//app.use((req, res, next) => {
-// req.user = { _id: '631fb9ac180fd401551bca0f' };
-// next(); // once this middleware is done, calls the next function
-//});
-
+//authorization
 app.post('/signin', login);
 app.post('/signup', createUser);
 
