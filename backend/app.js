@@ -1,4 +1,5 @@
 const { createUser, login } = require('./controllers/users');
+const { auth } = require('./middleware/auth.js');
 const express = require('express');
 const bodyParser = require('body-parser'); // so we can pull post body in json fprmat
 // use helmet to make server more secure (ie against XSS anf to use HTTPS)
@@ -35,11 +36,13 @@ mongoose.connect('mongodb://localhost:27017/aroundb');
 app.use(bodyParser.json()); // when we get a POST body, we can pull it in as JSON
 app.use(bodyParser.urlencoded({ extended: true })); // unencode the URL so we can get our JSON out
 
-//authorization
 app.post('/signin', login);
 app.post('/signup', createUser); // POST a new user to the database. include json with name about, link, email, password
 
-// connect the routers
+// authorization
+app.use(auth);
+
+// connect the routers- users can only acess these if they are authorized.
 app.use('/', cardsRouter);
 app.use('/', userRouter);
 
