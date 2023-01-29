@@ -23,6 +23,7 @@ const auth = (req, res, next) => {
   }
 
   req.user = payload; // assigning the payload(token) to the request object
+  //payload contains the id and a timestamp
   next(); // sending the request to the next middleware
 };
 

@@ -22,7 +22,8 @@ const login = (req, res) => {
       if (isPasswordCorrect) {
         const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
           expiresIn: '7d',
-        });
+        }); //token is the payload. after the auth function (see auth.js), access it using req.user
+
         res.status(200).send(token);
         //could also do res.send(token);- same thing, status is 200 by default
       } else {
@@ -67,6 +68,25 @@ const getUser = (req, res) => {
   User.findById(req.params.id)
     .orFail() // throws an error if user does not exist
     .then((users) => res.send({ data: users })) // returns to the client all the users
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        res.status(INVALID_INPUT).send({ message: 'Invalid user ID' });
+      } else if (err.name === 'DocumentNotFoundError') {
+        res.status(NOT_FOUND).send({ message: 'That user ID does not exist' });
+      } else {
+        res.status(SERVER_ERROR).send({ message: err.message });
+      }
+    });
+  // err is an object so we use err.message to get the message string
+};
+
+//TODO: FIX THIS SO IT RETURNS INFO ABOUT THE CURRENT USER
+const getCurrentUser = (req, res) => {
+  User.findById(req.user._id)
+    .orFail()
+    // throws an error if user does not exist
+    .then((users) => res.send({ data: users }))
+    // returns to the client all the users
     .catch((err) => {
       if (err.name === 'CastError') {
         res.status(INVALID_INPUT).send({ message: 'Invalid user ID' });
@@ -159,6 +179,7 @@ module.exports = {
   createUser,
   getUsers,
   getUser,
+  getCurrentUser,
   updateUserInfo,
   updateUserAvatar,
   login,
