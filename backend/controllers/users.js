@@ -80,7 +80,7 @@ const getUser = (req, res) => {
   // err is an object so we use err.message to get the message string
 };
 
-//TODO: FIX THIS SO IT RETURNS INFO ABOUT THE CURRENT USER
+//RETURNS INFO ABOUT THE CURRENT USER
 const getCurrentUser = (req, res) => {
   User.findById(req.user._id)
     .orFail()
