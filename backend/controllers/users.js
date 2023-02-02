@@ -7,6 +7,7 @@ const login = (req, res) => {
   const { email, password } = req.body; // get email and password out of the request body
   //authenticate the email and password
   User.findOne({ email })
+    .select('+password') //.select('+password') gets the user's password hash, even though it is not included by default.
     .then(async (user) => {
       if (!user) {
         // user not found
