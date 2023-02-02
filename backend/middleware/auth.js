@@ -17,13 +17,14 @@ const auth = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, 'some-secret-key');
+    payload = jwt.verify(token, 'some-secret-key'); //jwt.verify returns the unencrypted contents of the token- they are stored in payload
   } catch (err) {
     return res.status(401).send({ message: 'Authorization Required' });
   }
 
   req.user = payload; // assigning the payload(token) to the request object
-  //payload contains the id and a timestamp
+  //payload contains the id and a timestamp (the unencrypted contents of the token)
+  //req.user gets passed on- so the next middleware will have access to id and a timestamp
   next(); // sending the request to the next middleware
 };
 
