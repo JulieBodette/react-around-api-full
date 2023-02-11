@@ -1,4 +1,4 @@
-const BASEURL = 'https://register.nomoreparties.co';
+const BASEURL = 'http://localhost:3000';
 const HEADERS = { 'Content-Type': 'application/json' };
 
 const processResponse = (res) => {

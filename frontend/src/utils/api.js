@@ -113,7 +113,7 @@ class Api {
 
 //create an object of the API class
 const apiObj = new Api({
-  baseUrl: 'https://around.nomoreparties.co/v1/group-12',
+  baseUrl: 'http://localhost:3000',
   headers: {
     authorization: '7201271b-2cce-46ab-9f28-d324b822f8cb',
     'Content-Type': 'application/json',
