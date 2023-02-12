@@ -10,7 +10,7 @@ import { Main } from './Main.js';
 import { PopupWithForm } from './PopupWithForm.js';
 import { ImagePopup } from './ImagePopup.js';
 
-import apiObj from '../utils/api.js';
+import Api from '../utils/api.js';
 import ProtectedRoute from './ProtectedRoute.js';
 import { signUp, signIn, checkToken } from '../utils/auth.js';
 
@@ -44,6 +44,15 @@ function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [email, setEmail] = useState(''); //we get the email from the token
   const history = useHistory();
+
+  //create an object of the API class
+  const apiObj = new Api({
+    baseUrl: 'http://localhost:3000',
+    headers: {
+      authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
 
   function handleLogOutClick() {
     setIsLoggedIn(false);

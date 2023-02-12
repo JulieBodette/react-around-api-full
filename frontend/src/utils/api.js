@@ -111,13 +111,4 @@ class Api {
   }
 }
 
-//create an object of the API class
-const apiObj = new Api({
-  baseUrl: 'http://localhost:3000',
-  headers: {
-    authorization: localStorage.getItem('token'),
-    'Content-Type': 'application/json',
-  },
-});
-
-export default apiObj;
+export default Api;
