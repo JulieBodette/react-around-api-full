@@ -41,6 +41,7 @@ function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState();
   const [successMessage, setSuccessMessage] = useState(false); //used to determine if InfoToolTip displays a sucess or failure message
+  const [token, setToken] = useState(localStorage.getItem('token'));
   const [email, setEmail] = useState(''); //we get the email from the token
   const history = useHistory();
 
@@ -245,7 +246,6 @@ function App() {
     // do token check and set state variables
 
     //check to make sure that there is a token in localStorage
-    const token = localStorage.getItem('token');
     if (token) {
       //check to make sure the token is valid
       checkToken()
