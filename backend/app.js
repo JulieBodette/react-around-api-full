@@ -12,6 +12,8 @@ const rateLimit = require('express-rate-limit');
 const cardsRouter = require('./routes/cards');
 const userRouter = require('./routes/users');
 
+const cors = require('cors');
+
 // import error codes
 const { NOT_FOUND, SERVER_ERROR } = require('./utils');
 
@@ -20,6 +22,7 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(helmet()); // use helmet to make server more secure
+app.use(cors());
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
