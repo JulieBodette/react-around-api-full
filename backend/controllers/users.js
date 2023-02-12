@@ -25,7 +25,7 @@ const login = (req, res) => {
           expiresIn: '7d',
         }); //token is the payload. after the auth function (see auth.js), access it using req.user
 
-        res.status(200).send(token);
+        res.status(200).send({ token: token });
         //could also do res.send(token);- same thing, status is 200 by default
       } else {
         //password incorrect
