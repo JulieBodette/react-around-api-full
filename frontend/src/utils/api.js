@@ -115,7 +115,7 @@ class Api {
 const apiObj = new Api({
   baseUrl: 'http://localhost:3000',
   headers: {
-    authorization: '7201271b-2cce-46ab-9f28-d324b822f8cb',
+    authorization: localStorage.getItem('token'),
     'Content-Type': 'application/json',
   },
 });
