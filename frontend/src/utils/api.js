@@ -19,6 +19,7 @@ class Api {
       .then(this._processResponse)
       .catch((err) => {
         console.log(err); // log the error to the console
+        throw err;
       });
   }
 
@@ -30,6 +31,7 @@ class Api {
       .then(this._processResponse)
       .catch((err) => {
         console.log(err); // log the error to the console
+        throw err;
       });
   }
 
@@ -45,6 +47,7 @@ class Api {
       .then(this._processResponse)
       .catch((err) => {
         console.log(err); // log the error to the console
+        throw err;
       });
   }
 
@@ -58,6 +61,7 @@ class Api {
       .then(this._processResponse)
       .catch((err) => {
         console.log(err); // log the error to the console
+        throw err;
       });
   }
 
@@ -70,6 +74,7 @@ class Api {
       .then(this._processResponse)
       .catch((err) => {
         console.log(err); // log the error to the console
+        throw err;
       });
   }
 
@@ -83,6 +88,7 @@ class Api {
       .then(this._processResponse)
       .catch((err) => {
         console.log(err); // log the error to the console
+        throw err;
       });
   }
 
@@ -95,6 +101,7 @@ class Api {
       .then(this._processResponse)
       .catch((err) => {
         console.log(err); // log the error to the console
+        throw err;
       });
   }
 
@@ -107,6 +114,7 @@ class Api {
       .then(this._processResponse)
       .catch((err) => {
         console.log(err); // log the error to the console
+        throw err;
       });
   }
 }
