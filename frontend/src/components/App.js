@@ -244,7 +244,7 @@ function App() {
     apiObj
       .getInitialCards()
       .then((cardsResponse) => {
-        setCards(cardsResponse);
+        setCards(cardsResponse.data);
       })
       .catch((err) => {
         console.log(err); // log the error to the console
