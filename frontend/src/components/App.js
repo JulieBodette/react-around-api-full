@@ -45,7 +45,8 @@ function App() {
   const [email, setEmail] = useState(''); //we get the email from the token
   const history = useHistory();
 
-  //create an object of the API class
+  //create an object of the API class. This code runs once, on page load
+  //If the user is not logged in, token will be null.
   const apiObj = new Api({
     baseUrl: 'http://localhost:3000',
     headers: {
@@ -57,6 +58,7 @@ function App() {
   function handleLogOutClick() {
     setIsLoggedIn(false);
     localStorage.removeItem('token');
+    setToken('');
   }
 
   function handleSignUpClick(info) {
@@ -78,37 +80,36 @@ function App() {
 
   //useCallback means it will only re-render when whatever is in [] changes
   //in this case it only re-renders when history is changed.
-  const handleSignInClick = useCallback(
-    (info) => {
-      signIn(info)
-        .then((data) => {
-          // saving the token
-          if (data?.token) {
-            localStorage.setItem('token', data.token);
-          } else {
-            throw new AuthorizationError(
-              'error- username and/or password was wrong'
-            );
-          }
-        })
-        .then(() => {
-          setIsLoggedIn(true);
-          getEmail();
-          history.push('/'); // After your login action you can redirect with this command:
-        })
-        .catch((err) => {
-          //catch does not catch 400 level errors- only 500. a 400 level error will be a resolved promise and has a message.
-          //this is why we had to manually throw a new AuthorizationError
-          console.log(err);
-          //TODO: show a popup that says "your username or passord is wrong"
-          //currently displays a generic error message
-          setSuccessMessage(false); //prepare the InfoToolTip so that it has failure message
-          //important that we do this RIGHT before we open the tooltip- to ensure that ANY error we catch will result in the failure popup
-          setIsInfoTooltipOpen(true);
-        });
-    },
-    [history]
-  );
+  const handleSignInClick = useCallback((info) => {
+    signIn(info)
+      .then((data) => {
+        // saving the token
+        if (data?.token) {
+          localStorage.setItem('token', data.token); //save the token to localStorage
+          setToken(data.token); //set the state variable of token so that functions that heppen when token changes are called.
+          apiObj.setToken(data.token); //update the token in the API class so it is no longer null
+        } else {
+          throw new AuthorizationError(
+            'error- username and/or password was wrong'
+          );
+        }
+      })
+      .then(() => {
+        setIsLoggedIn(true);
+        getEmail();
+        history.push('/'); // After your login action you can redirect with this command:
+      })
+      .catch((err) => {
+        //catch does not catch 400 level errors- only 500. a 400 level error will be a resolved promise and has a message.
+        //this is why we had to manually throw a new AuthorizationError
+        console.log(err);
+        //TODO: show a popup that says "your username or passord is wrong"
+        //currently displays a generic error message
+        setSuccessMessage(false); //prepare the InfoToolTip so that it has failure message
+        //important that we do this RIGHT before we open the tooltip- to ensure that ANY error we catch will result in the failure popup
+        setIsInfoTooltipOpen(true);
+      });
+  }, []);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -226,8 +227,6 @@ function App() {
       });
   }
 
-  //this is called when the component is mounted. we pass it [] to make sure it only gets call once when its mounted
-  //otherwise it would be called every time it updates
   React.useEffect(() => {
     apiObj
       .getUserInfo()
@@ -237,7 +236,7 @@ function App() {
       .catch((err) => {
         console.log(err); // log the error to the console
       });
-  }, []);
+  }, [token]);
 
   //load the initial cards from the server
   React.useEffect(() => {
@@ -249,7 +248,7 @@ function App() {
       .catch((err) => {
         console.log(err); // log the error to the console
       });
-  }, []); //empty array tells it to only do once (when it is mounted)
+  }, [currentUser]);
 
   React.useEffect(() => {
     // do token check and set state variables
@@ -267,7 +266,7 @@ function App() {
           console.log(err);
         });
     } //end if
-  }, [history]);
+  }, []);
 
   function getEmail() {
     checkToken()

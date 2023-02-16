@@ -4,6 +4,10 @@ class Api {
     this._headers = headers;
   }
 
+  setToken(token) {
+    this._headers.authorization = `Bearer ${token}`;
+  }
+
   _processResponse = (res) => {
     if (res.ok) {
       return res.json();
