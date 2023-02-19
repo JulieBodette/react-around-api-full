@@ -14,7 +14,7 @@ const createCard = (req, res) => {
   const owner = req.user._id;
   const { name, link } = req.body; // get name etc out of the request body
   Card.create({ name, link, owner })
-    .then((card) => res.send({ data: card })) // returns to the client the user they just created
+    .then((card) => res.send(card)) // returns to the client the user they just created
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(INVALID_INPUT).send({ message: err.message });

@@ -45,7 +45,7 @@ const createUser = (req, res) => {
   bcryptjs
     .hash(password, 10)
     .then((hash) => User.create({ name, about, avatar, email, password: hash }))
-    .then((user) => res.send({ data: user })) // returns to the client the user they just created
+    .then((user) => res.send({ user })) // returns to the client the user they just created
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(INVALID_INPUT).send({ message: err.message });
