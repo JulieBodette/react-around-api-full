@@ -97,7 +97,7 @@ class Api {
   }
 
   likeCard(id) {
-    const url = this._baseUrl + '/cards/likes/' + id;
+    const url = this._baseUrl + '/cards/' + id + '/likes/';
     return fetch(url, {
       method: 'PUT',
       headers: this._headers,

@@ -75,7 +75,7 @@ const likeCard = (req, res) => {
     // without this, the user would get the card with the old list of likes
     // (the old list does not include the like they just added with this api call)
     .orFail() // throw an error if the card is null/ no card with that ID exists
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === 'CastError') {
         res.status(INVALID_INPUT).send({ message: 'Invalid card ID' });
@@ -98,7 +98,7 @@ const dislikeCard = (req, res) => {
   )
     // {new:true} is in the options object, it makes sure the client gets the updated card
     .orFail() // throws an error if card does not exist
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === 'CastError') {
         res.status(INVALID_INPUT).send({ message: 'Invalid card ID' });
