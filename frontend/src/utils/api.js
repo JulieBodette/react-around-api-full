@@ -110,7 +110,7 @@ class Api {
   }
 
   unlikeCard(id) {
-    const url = this._baseUrl + '/cards/likes/' + id;
+    const url = this._baseUrl + '/cards/' + id + '/likes/';
     return fetch(url, {
       method: 'DELETE',
       headers: this._headers,
