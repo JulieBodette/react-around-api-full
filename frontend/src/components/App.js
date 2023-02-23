@@ -169,6 +169,7 @@ function App() {
     apiObj
       .uploadCard(info)
       .then((newCard) => {
+        debugger;
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
@@ -190,6 +191,7 @@ function App() {
       apiObj
         .likeCard(card._id)
         .then(({ card: newCard }) => {
+          debugger;
           setCards((state) =>
             state.map((currentCard) =>
               currentCard._id === card._id ? newCard : currentCard
@@ -205,9 +207,10 @@ function App() {
       apiObj
         .unlikeCard(card._id)
         .then((newCard) => {
+          debugger;
           setCards((state) =>
             state.map((currentCard) =>
-              currentCard._id === card._id ? newCard : currentCard
+              currentCard._id === card._id ? newCard.card : currentCard
             )
           );
         })
@@ -247,6 +250,7 @@ function App() {
     apiObj
       .getInitialCards()
       .then((cardsResponse) => {
+        debugger;
         setCards(cardsResponse.data);
       })
       .catch((err) => {
