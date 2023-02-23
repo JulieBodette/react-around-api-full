@@ -169,7 +169,6 @@ function App() {
     apiObj
       .uploadCard(info)
       .then((newCard) => {
-        debugger;
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
@@ -182,7 +181,6 @@ function App() {
     // Check one more time if this card was already liked
     //The some() method tests whether at least one element in the array passes the test
     //in this case, if 1 of the likes is from the current user, we need to make the heart dark
-    console.log('liking disling card', card);
     const isLiked = card.likes.some((id) => id === currentUser.data._id);
 
     // Send a request to the API and getting the updated card data
@@ -191,7 +189,6 @@ function App() {
       apiObj
         .likeCard(card._id)
         .then(({ card: newCard }) => {
-          debugger;
           setCards((state) =>
             state.map((currentCard) =>
               currentCard._id === card._id ? newCard : currentCard
@@ -207,7 +204,6 @@ function App() {
       apiObj
         .unlikeCard(card._id)
         .then((newCard) => {
-          debugger;
           setCards((state) =>
             state.map((currentCard) =>
               currentCard._id === card._id ? newCard.card : currentCard
@@ -250,7 +246,6 @@ function App() {
     apiObj
       .getInitialCards()
       .then((cardsResponse) => {
-        debugger;
         setCards(cardsResponse.data);
       })
       .catch((err) => {
