@@ -39,7 +39,7 @@ function App() {
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
-  const [isLoggedIn, setIsLoggedIn] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false); //used to determine if InfoToolTip displays a sucess or failure message
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [email, setEmail] = useState(''); //we get the email from the token
@@ -181,7 +181,7 @@ function App() {
     // Check one more time if this card was already liked
     //The some() method tests whether at least one element in the array passes the test
     //in this case, if 1 of the likes is from the current user, we need to make the heart dark
-
+    console.log('liking disling card', card);
     const isLiked = card.likes.some((id) => id === currentUser.data._id);
 
     // Send a request to the API and getting the updated card data
