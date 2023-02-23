@@ -181,22 +181,24 @@ function App() {
     // Check one more time if this card was already liked
     //The some() method tests whether at least one element in the array passes the test
     //in this case, if 1 of the likes is from the current user, we need to make the heart dark
-    const isLiked = card.likes.some(
-      (user) => user._id === currentUser.data._id
-    );
+
+    const isLiked = card.likes.some((id) => id === currentUser.data._id);
 
     // Send a request to the API and getting the updated card data
     //if !isLiked- if the card was not liked before and now the user wants to like it
     if (!isLiked) {
-      apiObj.likeCard(card._id).then(({ card: newCard }) => {
-        setCards((state) =>
-          state.map((currentCard) =>
-            currentCard._id === card._id ? newCard : currentCard
-          )
-        ).catch((err) => {
+      apiObj
+        .likeCard(card._id)
+        .then(({ card: newCard }) => {
+          setCards((state) =>
+            state.map((currentCard) =>
+              currentCard._id === card._id ? newCard : currentCard
+            )
+          );
+        })
+        .catch((err) => {
           console.log(err); // log the error to the console
         });
-      });
     }
     //if isLiked - if the user already liked it and is now unliking it
     else {
