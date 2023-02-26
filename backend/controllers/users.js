@@ -104,7 +104,7 @@ const getCurrentUser = (req, res) => {
 const updateUserInfo = (req, res) => {
   User.findByIdAndUpdate(
     req.user._id,
-    { about: req.body.about },
+    { about: req.body.about, name: req.body.name },
     {
       new: true, // the then handler receives the updated entry as input
       runValidators: true, // the data will be validated before the update
