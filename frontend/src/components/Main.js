@@ -17,7 +17,6 @@ export function Main({
   onCardDelete,
 }) {
   const currentUser = React.useContext(UserContext);
-
   return (
     <main>
       <section className="profile">
@@ -25,7 +24,7 @@ export function Main({
         <div className="profile__image">
           <img
             className="profile__avatar"
-            src={currentUser && currentUser.avatar}
+            src={currentUser && currentUser.data.avatar}
             alt="Avatar"
           />
           <button
@@ -39,7 +38,7 @@ export function Main({
         <div className="profile__info">
           {/*cannot be span (w3c error from having <p> tag) */}
           <h1 className="profile__info-name">
-            {currentUser && currentUser.name}
+            {currentUser && currentUser.data.name}
           </h1>
           <button
             type="button"
@@ -51,7 +50,7 @@ export function Main({
           </button>
 
           <p className="profile__info-title">
-            {currentUser && currentUser.about}
+            {currentUser && currentUser.data.about}
           </p>
         </div>
         <button
