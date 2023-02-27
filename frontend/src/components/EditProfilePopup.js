@@ -13,8 +13,8 @@ export function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   React.useEffect(() => {
     //the user is null before the api fetches it- need to check to make sure it is not null to avoid errors
     if (currentUser) {
-      setName(currentUser.name);
-      setDescription(currentUser.about);
+      setName(currentUser.data.name);
+      setDescription(currentUser.data.about);
     }
   }, [currentUser]);
 
