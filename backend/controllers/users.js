@@ -2,9 +2,9 @@ const User = require('../models/user');
 const bcryptjs = require('bcryptjs'); // importing bcrypt- need it to hash passwords
 const jwt = require('jsonwebtoken');
 const { NOT_FOUND, SERVER_ERROR, INVALID_INPUT } = require('../utils');
-const { InvalidInput } = require('../errors');
+const { InvalidInput, WrongUsernamePassword } = require('../errors');
 
-const login = (req, res) => {
+const login = (req, res, next) => {
   const { email, password } = req.body; // get email and password out of the request body
   //authenticate the email and password
   User.findOne({ email })
@@ -36,8 +36,8 @@ const login = (req, res) => {
     })
 
     .catch((err) => {
-      // return an authentication error
-      res.status(401).send({ message: err.message });
+      // return an authentication (401) error
+      next(new WrongUsernamePassword(err.message));
     });
 };
 
