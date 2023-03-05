@@ -1,5 +1,4 @@
 const Card = require('../models/card');
-const { NOT_FOUND, SERVER_ERROR, INVALID_INPUT } = require('../utils');
 const {
   InvalidInput,
   NotFound,
@@ -35,27 +34,29 @@ const createCard = (req, res, next) => {
 
 // deleteCard deletes a card by ID
 const deleteCard = (req, res, next) => {
-  //check that the card belongs to the current user (otherwise they do not have permission to delete it)
+  // check that the card belongs to the current user
+  // (otherwise they do not have permission to delete it)
 
-  //req.user._id is the id of the current user/the user sending the request
+  // req.user._id is the id of the current user/the user sending the request
   Card.findById(req.params.id)
     .then((card) => {
-      if (req.user._id != card.owner) {
-        //the card does not belong to current user-they do not have permission to delete it
+      if (req.user._id !== card.owner) {
+        // the card does not belong to current user-they do not have permission to delete it
         throw new Error('Forbidden');
-      } //delete the card
-      else {
-        return Card.findByIdAndDelete(req.params.id).orFail(); // throws an error if card does not exist
+      } else {
+        // delete the card
+        return Card.findByIdAndDelete(req.params.id).orFail();
+        // throws an error if card does not exist
       }
     })
 
     .then((card) => res.send({ data: card })) // returns to the client the card they just deleted
     .catch((err) => {
-      if (err.message == 'Forbidden') {
+      if (err.message === 'Forbidden') {
         next(
           new NotAuthorized(
-            'That card does not belong to that user. They are not authorized to delete it.'
-          )
+            'That card does not belong to that user. They are not authorized to delete it.',
+          ),
         );
       } else if (err.name === 'CastError') {
         next(new InvalidInput('Invalid card ID'));
@@ -76,7 +77,7 @@ const likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     // {new:true} is in the options object, it makes sure the client gets the updated card
     // without this, the user would get the card with the old list of likes
@@ -101,7 +102,7 @@ const dislikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } }, // remove _id from the array
-    { new: true }
+    { new: true },
   )
     // {new:true} is in the options object, it makes sure the client gets the updated card
     .orFail() // throws an error if card does not exist

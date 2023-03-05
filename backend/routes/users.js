@@ -10,10 +10,10 @@ const {
 // GET http://localhost:3000/users
 userRouter.get('/users', getUsers);
 
-//THIS MUST come before get('/users/:id
-//we need to check for the word "me" after users before we check for an id
+// THIS MUST come before get('/users/:id
+// we need to check for the word "me" after users before we check for an id
 // GET http://localhost:3000/users/me
-//get info about current user
+// get info about current user
 userRouter.get('/users/me', getCurrentUser);
 
 // GET http://localhost:3000/users/8340d0ec33270a25f2413b69

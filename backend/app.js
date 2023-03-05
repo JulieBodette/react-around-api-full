@@ -1,21 +1,21 @@
-const { createUser, login } = require('./controllers/users');
-const { auth } = require('./middleware/auth.js');
 const express = require('express');
 const bodyParser = require('body-parser'); // so we can pull post body in json fprmat
 // use helmet to make server more secure (ie against XSS anf to use HTTPS)
 const helmet = require('helmet');
 const { default: mongoose } = require('mongoose');
-//limit the rate to prevent DOS attacks
+// limit the rate to prevent DOS attacks
 const rateLimit = require('express-rate-limit');
 
 // import the routers from cards.js and users.js
+const cors = require('cors');
 const cardsRouter = require('./routes/cards');
 const userRouter = require('./routes/users');
 
-const cors = require('cors');
+const { auth } = require('./middleware/auth');
+const { createUser, login } = require('./controllers/users');
 
 // import error codes
-const { NOT_FOUND, SERVER_ERROR } = require('./utils');
+const { NOT_FOUND } = require('./utils');
 
 // set up the server, default port 3000
 const { PORT = 3000 } = process.env;
@@ -53,9 +53,7 @@ app.use('/', userRouter);
 // and 500 (general server error- the server's mistake)
 // order is important- we check to see if it's 404 error
 // and if it is not, it must be 500 error
-app.use((req, res) =>
-  res.status(NOT_FOUND).send({ message: 'Requested resource not found' })
-);
+app.use((req, res) => res.status(NOT_FOUND).send({ message: 'Requested resource not found' }));
 
 app.use((err, req, res, next) => {
   // if an error has no status, display 500
@@ -66,7 +64,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-//app.use((err, req, res) => res.status(SERVER_ERROR).send({ error: err }));
+// app.use((err, req, res) => res.status(SERVER_ERROR).send({ error: err }));
 
 app.listen(PORT, () => {
   // if everything works fine, the console will show which port the application is listening to
