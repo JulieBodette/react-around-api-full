@@ -17,7 +17,7 @@ const login = (req, res, next) => {
       if (!user) {
         // user not found
         // fire the catch block with an error
-        return Promise.reject(new Error('Incorrect password or email'));
+        throw Promise.reject(new Error('Incorrect password or email'));
       }
       // user found - check if the password is correct
 
@@ -26,7 +26,7 @@ const login = (req, res, next) => {
       // The email and password are correct.
       // create a JSON web token (JWT) that expires after a week.
       if (!isPasswordCorrect) {
-        return Promise.reject(new Error('Incorrect password or email'));
+        throw Promise.reject(new Error('Incorrect password or email'));
         // If the password is incorrect, fire the catch block with an error
       }
       // if we got here, password is correct
