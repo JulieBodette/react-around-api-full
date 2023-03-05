@@ -1,7 +1,6 @@
 const User = require('../models/user');
 const bcryptjs = require('bcryptjs'); // importing bcrypt- need it to hash passwords
 const jwt = require('jsonwebtoken');
-const { NOT_FOUND, SERVER_ERROR, INVALID_INPUT } = require('../utils');
 const { InvalidInput, WrongUsernamePassword, NotFound } = require('../errors');
 
 const login = (req, res, next) => {
