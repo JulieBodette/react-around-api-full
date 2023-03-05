@@ -2,6 +2,7 @@
 // verify the token from the headers.
 //If everything's fine with the token, the middleware should
 //add the token payload to the user object and call next()
+const { NotAuthorized } = require('../errors');
 const jwt = require('jsonwebtoken');
 
 const auth = (req, res, next) => {
@@ -9,7 +10,7 @@ const auth = (req, res, next) => {
 
   //if there is not a token
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    return res.status(401).send({ message: 'Authorization required' });
+    next(new NotAuthorized('Authorization required'));
   }
 
   // getting the token
@@ -19,7 +20,7 @@ const auth = (req, res, next) => {
   try {
     payload = jwt.verify(token, 'some-secret-key'); //jwt.verify returns the unencrypted contents of the token- they are stored in payload
   } catch (err) {
-    return res.status(401).send({ message: 'Authorization Required' });
+    next(new NotAuthorized('Authorization required'));
   }
 
   req.user = payload; // assigning the payload(token) to the request object
