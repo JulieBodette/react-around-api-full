@@ -2,7 +2,7 @@ const User = require('../models/user');
 const bcryptjs = require('bcryptjs'); // importing bcrypt- need it to hash passwords
 const jwt = require('jsonwebtoken');
 const { NOT_FOUND, SERVER_ERROR, INVALID_INPUT } = require('../utils');
-const { InvalidInput, WrongUsernamePassword } = require('../errors');
+const { InvalidInput, WrongUsernamePassword, NotFound } = require('../errors');
 
 const login = (req, res, next) => {
   const { email, password } = req.body; // get email and password out of the request body
@@ -52,38 +52,38 @@ const createUser = (req, res, next) => {
         next(new InvalidInput(err.message));
         // error status 400 because user sent invalid input
       } else {
-        res.status(SERVER_ERROR).send({ message: err.message });
+        next(new ServerError(err.message));
         // error status 500-server error
       }
     });
   // err is an object so we use err.message to get the message string
 };
 
-const getUsers = (req, res) => {
+const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send({ data: users })) // returns to the client all the users
-    .catch((err) => res.status(SERVER_ERROR).send({ message: err.message }));
+    .catch((err) => next(new ServerError(err.message)));
   // err is an object so we use err.message to get the message string
 };
 
-const getUser = (req, res) => {
+const getUser = (req, res, next) => {
   User.findById(req.params.id)
     .orFail() // throws an error if user does not exist
     .then((users) => res.send({ data: users })) // returns to the client all the users
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(INVALID_INPUT).send({ message: 'Invalid user ID' });
+        next(new InvalidInput('Invalid user ID'));
       } else if (err.name === 'DocumentNotFoundError') {
-        res.status(NOT_FOUND).send({ message: 'That user ID does not exist' });
+        next(new NotFound('That user ID does not exist'));
       } else {
-        res.status(SERVER_ERROR).send({ message: err.message });
+        next(new ServerError(err.message));
+        // err is an object so we use err.message to get the message string
       }
     });
-  // err is an object so we use err.message to get the message string
 };
 
 //RETURNS INFO ABOUT THE CURRENT USER
-const getCurrentUser = (req, res) => {
+const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail()
     // throws an error if user does not exist
@@ -91,18 +91,18 @@ const getCurrentUser = (req, res) => {
     // returns to the client all the users
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(INVALID_INPUT).send({ message: 'Invalid user ID' });
+        next(new InvalidInput('Invalid user ID'));
       } else if (err.name === 'DocumentNotFoundError') {
-        res.status(NOT_FOUND).send({ message: 'That user ID does not exist' });
+        next(new NotFound('That user ID does not exist'));
       } else {
-        res.status(SERVER_ERROR).send({ message: err.message });
+        next(new ServerError(err.message));
       }
     });
   // err is an object so we use err.message to get the message string
 };
 
 // patch user description
-const updateUserInfo = (req, res) => {
+const updateUserInfo = (req, res, next) => {
   User.findByIdAndUpdate(
     req.user._id,
     { about: req.body.about, name: req.body.name },
@@ -116,9 +116,7 @@ const updateUserInfo = (req, res) => {
     .then((user) => {
       // if the json that the client sent does not have an about ie {"about":"info here"}
       if (!req.body.about) {
-        res
-          .status(INVALID_INPUT)
-          .send({ message: 'Error: You did not include an about field' });
+        next(new InvalidInput('Error: You did not include an about field'));
       } else {
         res.send({ data: user });
       }
@@ -126,22 +124,23 @@ const updateUserInfo = (req, res) => {
     .catch((err) => {
       // invalid user id
       if (err.name === 'CastError') {
-        res.status(INVALID_INPUT).send({ message: 'Invalid user ID' });
+        next(new InvalidInput('Invalid user ID'));
       } else if (err.name === 'DocumentNotFoundError') {
-        res.status(NOT_FOUND).send({ message: 'That user ID does not exist' });
+        next(new NotFound('That user ID does not exist'));
       } else if (err.name === 'ValidationError') {
-        res.status(INVALID_INPUT).send({
-          message:
-            'Invalid input. Make sure the about field is minimum 2 and max 30 characters.',
-        });
+        next(
+          new InvalidInput(
+            'Invalid input. Make sure the about field is minimum 2 and max 30 characters.'
+          )
+        );
       } else {
-        res.status(SERVER_ERROR).send({ message: err.message });
+        next(new ServerError(err.message));
       }
     });
 };
 
 // patch user avatar
-const updateUserAvatar = (req, res) => {
+const updateUserAvatar = (req, res, next) => {
   User.findByIdAndUpdate(
     req.user._id,
     { avatar: req.body.avatar },
@@ -154,9 +153,7 @@ const updateUserAvatar = (req, res) => {
     .then((user) => {
       // if the json that the client sent does not have an about ie {"avatar":"http://link-to-image"}
       if (!req.body.avatar) {
-        res
-          .status(INVALID_INPUT)
-          .send({ message: 'Error: You did not include an avatar field' });
+        next(new InvalidInput('Error: You did not include an avatar field'));
       } else {
         res.send({ data: user });
       }
@@ -166,13 +163,15 @@ const updateUserAvatar = (req, res) => {
       if (err.name === 'CastError') {
         next(new InvalidInput('Invalid user ID'));
       } else if (err.name === 'DocumentNotFoundError') {
-        res.status(NOT_FOUND).send({ message: 'That user ID does not exist' });
+        next(new NotFound('That user ID does not exist'));
       } else if (err.name === 'ValidationError') {
-        res.status(INVALID_INPUT).send({
-          message: 'Invalid input. Make sure the avatar field is a valid url',
-        });
+        next(
+          new InvalidInput(
+            'Invalid input. Make sure the avatar field is a valid url'
+          )
+        );
       } else {
-        res.status(SERVER_ERROR).send({ message: err.message });
+        next(new ServerError(err.message));
       }
     });
 };

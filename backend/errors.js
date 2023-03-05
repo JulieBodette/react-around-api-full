@@ -24,8 +24,17 @@ class WrongUsernamePassword extends Error {
   }
 }
 
+class NotFound extends Error {
+  //used for 404 errors
+  constructor(message) {
+    super(message);
+    this.statusCode = NOT_FOUND;
+  }
+}
+
 module.exports = {
   InvalidInput,
   ServerError,
   WrongUsernamePassword,
+  NotFound,
 };
