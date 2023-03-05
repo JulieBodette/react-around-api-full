@@ -25,19 +25,18 @@ const login = (req, res, next) => {
       // returns true if password the user entered matches the one in the database, else false
       // The email and password are correct.
       // create a JSON web token (JWT) that expires after a week.
-      if (isPasswordCorrect) {
-        const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
-          expiresIn: '7d',
-        }); // token is the payload. after the auth function (see auth.js), access it using req.user
-
-        res.status(200).send({ token });
-        // could also do res.send(token);- same thing, status is 200 by default
-        return;
-      } else {
-        // password incorrect
+      if (!isPasswordCorrect) {
         return Promise.reject(new Error('Incorrect password or email'));
         // If the password is incorrect, fire the catch block with an error
       }
+      // if we got here, password is correct
+
+      const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
+        expiresIn: '7d',
+      }); // token is the payload. after the auth function (see auth.js), access it using req.user
+
+      res.status(200).send({ token });
+      // could also do res.send(token);- same thing, status is 200 by default
     })
 
     .catch((err) => {
@@ -47,18 +46,18 @@ const login = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body; // get name etc out of the request body
+  const {
+    name, about, avatar, email, password,
+  } = req.body; // get name etc out of the request body
   bcryptjs
     .hash(password, 10)
-    .then((hash) =>
-      User.create({
-        name,
-        about,
-        avatar,
-        email,
-        password: hash,
-      })
-    )
+    .then((hash) => User.create({
+      name,
+      about,
+      avatar,
+      email,
+      password: hash,
+    }))
     .then((user) => res.send({ user })) // returns to the client the user they just created
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -123,7 +122,7 @@ const updateUserInfo = (req, res, next) => {
       new: true, // the then handler receives the updated entry as input
       runValidators: true, // the data will be validated before the update
       upsert: true, // if the user entry wasn't found, it will be created
-    }
+    },
   )
     .orFail() // throws an error if user does not exist
     .then((user) => {
@@ -143,8 +142,8 @@ const updateUserInfo = (req, res, next) => {
       } else if (err.name === 'ValidationError') {
         next(
           new InvalidInput(
-            'Invalid input. Make sure the about field is minimum 2 and max 30 characters.'
-          )
+            'Invalid input. Make sure the about field is minimum 2 and max 30 characters.',
+          ),
         );
       } else {
         next(new ServerError(err.message));
@@ -161,7 +160,7 @@ const updateUserAvatar = (req, res, next) => {
       new: true, // the then handler receives the updated entry as input
       runValidators: true, // the data will be validated before the update
       upsert: true, // if the user entry wasn't found, it will be created
-    }
+    },
   )
     .then((user) => {
       // if the json that the client sent does not have an about ie {"avatar":"http://link-to-image"}
@@ -180,8 +179,8 @@ const updateUserAvatar = (req, res, next) => {
       } else if (err.name === 'ValidationError') {
         next(
           new InvalidInput(
-            'Invalid input. Make sure the avatar field is a valid url'
-          )
+            'Invalid input. Make sure the avatar field is a valid url',
+          ),
         );
       } else {
         next(new ServerError(err.message));
