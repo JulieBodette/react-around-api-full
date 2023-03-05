@@ -32,6 +32,7 @@ const login = (req, res, next) => {
 
         res.status(200).send({ token });
         // could also do res.send(token);- same thing, status is 200 by default
+        return;
       } else {
         // password incorrect
         return Promise.reject(new Error('Incorrect password or email'));
