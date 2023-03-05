@@ -1,7 +1,12 @@
 const User = require('../models/user');
 const bcryptjs = require('bcryptjs'); // importing bcrypt- need it to hash passwords
 const jwt = require('jsonwebtoken');
-const { InvalidInput, WrongUsernamePassword, NotFound } = require('../errors');
+const {
+  InvalidInput,
+  WrongUsernamePassword,
+  NotFound,
+  ServerError,
+} = require('../errors');
 
 const login = (req, res, next) => {
   const { email, password } = req.body; // get email and password out of the request body
