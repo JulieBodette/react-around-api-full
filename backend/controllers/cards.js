@@ -1,6 +1,11 @@
 const Card = require('../models/card');
 const { NOT_FOUND, SERVER_ERROR, INVALID_INPUT } = require('../utils');
-const { InvalidInput, NotFound, ServerError } = require('../errors');
+const {
+  InvalidInput,
+  NotFound,
+  ServerError,
+  NotAuthorized,
+} = require('../errors');
 
 // getCards returns all cards
 const getCards = (req, res, next) => {
