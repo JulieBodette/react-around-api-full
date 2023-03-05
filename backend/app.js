@@ -57,7 +57,16 @@ app.use((req, res) =>
   res.status(NOT_FOUND).send({ message: 'Requested resource not found' })
 );
 
-app.use((err, req, res) => res.status(SERVER_ERROR).send({ error: err }));
+app.use((err, req, res, next) => {
+  // if an error has no status, display 500
+  const { statusCode = 500, message } = err;
+  res.status(statusCode).send({
+    // check the status and display a message based on it
+    message: statusCode === 500 ? 'An error occurred on the server' : message,
+  });
+});
+
+//app.use((err, req, res) => res.status(SERVER_ERROR).send({ error: err }));
 
 app.listen(PORT, () => {
   // if everything works fine, the console will show which port the application is listening to

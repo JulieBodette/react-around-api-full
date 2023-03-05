@@ -2,6 +2,7 @@ const User = require('../models/user');
 const bcryptjs = require('bcryptjs'); // importing bcrypt- need it to hash passwords
 const jwt = require('jsonwebtoken');
 const { NOT_FOUND, SERVER_ERROR, INVALID_INPUT } = require('../utils');
+const { InvalidInput } = require('../errors');
 
 const login = (req, res) => {
   const { email, password } = req.body; // get email and password out of the request body
@@ -40,7 +41,7 @@ const login = (req, res) => {
     });
 };
 
-const createUser = (req, res) => {
+const createUser = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body; // get name etc out of the request body
   bcryptjs
     .hash(password, 10)
@@ -48,7 +49,7 @@ const createUser = (req, res) => {
     .then((user) => res.send({ user })) // returns to the client the user they just created
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(INVALID_INPUT).send({ message: err.message });
+        next(new InvalidInput(err.message));
         // error status 400 because user sent invalid input
       } else {
         res.status(SERVER_ERROR).send({ message: err.message });
@@ -163,7 +164,7 @@ const updateUserAvatar = (req, res) => {
     .catch((err) => {
       // invalid user id
       if (err.name === 'CastError') {
-        res.status(INVALID_INPUT).send({ message: 'Invalid user ID' });
+        next(new InvalidInput('Invalid user ID'));
       } else if (err.name === 'DocumentNotFoundError') {
         res.status(NOT_FOUND).send({ message: 'That user ID does not exist' });
       } else if (err.name === 'ValidationError') {
