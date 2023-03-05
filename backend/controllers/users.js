@@ -13,7 +13,7 @@ const login = (req, res, next) => {
   // authenticate the email and password
   User.findOne({ email })
     .select('+password') // .select('+password') gets the user's password hash, even though it is not included by default.
-    .then(async (user) => {
+    .then((user) => {
       if (!user) {
         // user not found
         // fire the catch block with an error
@@ -46,14 +46,18 @@ const login = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const {
-    name, about, avatar, email, password,
-  } = req.body; // get name etc out of the request body
+  const { name, about, avatar, email, password } = req.body; // get name etc out of the request body
   bcryptjs
     .hash(password, 10)
-    .then((hash) => User.create({
-      name, about, avatar, email, password: hash,
-    }))
+    .then((hash) =>
+      User.create({
+        name,
+        about,
+        avatar,
+        email,
+        password: hash,
+      })
+    )
     .then((user) => res.send({ user })) // returns to the client the user they just created
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -118,7 +122,7 @@ const updateUserInfo = (req, res, next) => {
       new: true, // the then handler receives the updated entry as input
       runValidators: true, // the data will be validated before the update
       upsert: true, // if the user entry wasn't found, it will be created
-    },
+    }
   )
     .orFail() // throws an error if user does not exist
     .then((user) => {
@@ -138,8 +142,8 @@ const updateUserInfo = (req, res, next) => {
       } else if (err.name === 'ValidationError') {
         next(
           new InvalidInput(
-            'Invalid input. Make sure the about field is minimum 2 and max 30 characters.',
-          ),
+            'Invalid input. Make sure the about field is minimum 2 and max 30 characters.'
+          )
         );
       } else {
         next(new ServerError(err.message));
@@ -156,7 +160,7 @@ const updateUserAvatar = (req, res, next) => {
       new: true, // the then handler receives the updated entry as input
       runValidators: true, // the data will be validated before the update
       upsert: true, // if the user entry wasn't found, it will be created
-    },
+    }
   )
     .then((user) => {
       // if the json that the client sent does not have an about ie {"avatar":"http://link-to-image"}
@@ -175,8 +179,8 @@ const updateUserAvatar = (req, res, next) => {
       } else if (err.name === 'ValidationError') {
         next(
           new InvalidInput(
-            'Invalid input. Make sure the avatar field is a valid url',
-          ),
+            'Invalid input. Make sure the avatar field is a valid url'
+          )
         );
       } else {
         next(new ServerError(err.message));
