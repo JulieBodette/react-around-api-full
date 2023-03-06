@@ -1,6 +1,12 @@
+//import the celebrate validators
+const { ValidateUser, ValidateCard } = require('../middleware/validation.js');
 const cardRouter = require('express').Router(); // create a router
 const {
-  getCards, createCard, deleteCard, likeCard, dislikeCard,
+  getCards,
+  createCard,
+  deleteCard,
+  likeCard,
+  dislikeCard,
 } = require('../controllers/cards');
 // GET http://localhost:3000/cards
 
@@ -8,7 +14,7 @@ cardRouter.get('/cards', getCards);
 
 // POST a new card to the database.
 // include json with name, link, owner, creation date, and likes (empty array)
-cardRouter.post('/cards', createCard);
+cardRouter.post('/cards', createCard, ValidateCard);
 
 cardRouter.delete('/cards/:id', deleteCard);
 
