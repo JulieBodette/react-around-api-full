@@ -14,7 +14,7 @@ cardRouter.get('/cards', getCards);
 
 // POST a new card to the database.
 // include json with name, link, owner, creation date, and likes (empty array)
-cardRouter.post('/cards', createCard, ValidateCard);
+cardRouter.post('/cards', ValidateCard, createCard);
 
 cardRouter.delete('/cards/:id', deleteCard);
 

@@ -5,7 +5,8 @@ const helmet = require('helmet');
 const { default: mongoose } = require('mongoose');
 // limit the rate to prevent DOS attacks
 const rateLimit = require('express-rate-limit');
-
+//celebrate error handler
+const { errors } = require('celebrate');
 // import the routers from cards.js and users.js
 const cors = require('cors');
 const cardsRouter = require('./routes/cards');
@@ -49,11 +50,16 @@ app.use(auth);
 app.use('/', cardsRouter);
 app.use('/', userRouter);
 
+// celebrate error handler
+app.use(errors());
+
 // deal with 404 (page not found- the user's mistake)
 // and 500 (general server error- the server's mistake)
 // order is important- we check to see if it's 404 error
 // and if it is not, it must be 500 error
-app.use((req, res) => res.status(NOT_FOUND).send({ message: 'Requested resource not found' }));
+app.use((req, res) =>
+  res.status(NOT_FOUND).send({ message: 'Requested resource not found' })
+);
 
 app.use((err, req, res, next) => {
   // if an error has no status, display 500
