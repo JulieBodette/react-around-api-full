@@ -23,6 +23,10 @@ module.exports.ValidateCard = celebrate({
       'string.empty': 'Hello The "link" field must be filled in',
       'string.uri': 'Hello the "link" field must be a valid url',
     }),
+    likes: Joi.array().required(),
+    owner: Joi.object().required(),
+    createdAt: Joi.date(),
+
     //TO DO: ADD THIS
     //likes is an array and its required
     //owner is a string and its required
