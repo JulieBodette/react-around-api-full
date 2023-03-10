@@ -1,5 +1,5 @@
 //import the celebrate validators
-const { ValidateUser, ValidateCard } = require('../middleware/validation.js');
+const { ValidateCard } = require('../middleware/validation.js');
 const cardRouter = require('express').Router(); // create a router
 const {
   getCards,

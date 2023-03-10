@@ -7,6 +7,8 @@ const { default: mongoose } = require('mongoose');
 const rateLimit = require('express-rate-limit');
 //celebrate error handler
 const { errors } = require('celebrate');
+//custom validation functions ( I made them using joi and celebrate)
+const { ValidateUser } = require('./middleware/validation.js');
 // import the routers from cards.js and users.js
 const cors = require('cors');
 const cardsRouter = require('./routes/cards');
@@ -41,7 +43,7 @@ app.use(bodyParser.json()); // when we get a POST body, we can pull it in as JSO
 app.use(bodyParser.urlencoded({ extended: true })); // unencode the URL so we can get our JSON out
 
 app.post('/signin', login);
-app.post('/signup', createUser); // POST a new user to the database. include json with name about, link, email, password
+app.post('/signup', ValidateUser, createUser); // POST a new user to the database. include json with name about, link, email, password
 
 // authorization
 app.use(auth);
