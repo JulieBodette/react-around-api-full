@@ -42,7 +42,7 @@ mongoose.connect('mongodb://localhost:27017/aroundb');
 app.use(bodyParser.json()); // when we get a POST body, we can pull it in as JSON
 app.use(bodyParser.urlencoded({ extended: true })); // unencode the URL so we can get our JSON out
 
-app.post('/signin', login);
+app.post('/signin', ValidateUser, login);
 app.post('/signup', ValidateUser, createUser); // POST a new user to the database. include json with name about, link, email, password
 
 // authorization
