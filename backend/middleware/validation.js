@@ -44,3 +44,11 @@ module.exports.ValidateCard = celebrate({
     createdAt: Joi.date(),
   }),
 });
+
+module.exports.ValidateLikeCard = celebrate({
+  params: Joi.object().keys({
+    cardId: Joi.string().required().min(1).max(2000).messages({
+      'string.empty': 'The "cardId" field must be filled in',
+    }),
+  }),
+});
