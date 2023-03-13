@@ -23,6 +23,6 @@ cardRouter.delete('/cards/:id', deleteCard);
 
 cardRouter.put('/cards/:cardId/likes', ValidateLikeCard, likeCard);
 
-cardRouter.delete('/cards/:cardId/likes', dislikeCard);
+cardRouter.delete('/cards/:cardId/likes', ValidateLikeCard, dislikeCard);
 
 module.exports = cardRouter;
