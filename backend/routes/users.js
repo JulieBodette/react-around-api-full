@@ -25,6 +25,6 @@ userRouter.get('/users/:id', getUser);
 userRouter.patch('/users/me', ValidatePatchUser, updateUserInfo);
 
 // patch new user avatar (image link)
-userRouter.patch('/users/me/avatar', updateUserAvatar);
+userRouter.patch('/users/me/avatar', ValidatePatchUser, updateUserAvatar);
 
 module.exports = userRouter;
