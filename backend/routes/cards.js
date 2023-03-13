@@ -2,6 +2,7 @@
 const {
   ValidateCard,
   ValidateLikeCard,
+  ValidateDeleteCard,
 } = require('../middleware/validation.js');
 const cardRouter = require('express').Router(); // create a router
 const {
@@ -19,7 +20,7 @@ cardRouter.get('/cards', getCards);
 // include json with name, link, owner, creation date, and likes (empty array)
 cardRouter.post('/cards', ValidateCard, createCard);
 
-cardRouter.delete('/cards/:id', deleteCard);
+cardRouter.delete('/cards/:id', ValidateDeleteCard, deleteCard);
 
 cardRouter.put('/cards/:cardId/likes', ValidateLikeCard, likeCard);
 
