@@ -45,12 +45,9 @@ const deleteCard = (req, res, next) => {
       if (!userId.equals(card.owner)) {
         // must use .equals() to compare; == does not work
         // the card does not belong to current user-they do not have permission to delete it
-
-        console.log('forbidden error');
         throw new Error('Forbidden');
       } else {
         // delete the card
-        console.log('deleting card...');
         return Card.findByIdAndDelete(req.params.id).orFail();
         // throws an error if card does not exist
       }
