@@ -1,3 +1,5 @@
+//import the celebrate validators
+const { ValidatePatchUser } = require('../middleware/validation.js');
 const userRouter = require('express').Router(); // create a router
 const {
   getCurrentUser,
@@ -20,7 +22,7 @@ userRouter.get('/users/me', getCurrentUser);
 userRouter.get('/users/:id', getUser);
 
 // patch new user description ("about")
-userRouter.patch('/users/me', updateUserInfo);
+userRouter.patch('/users/me', ValidatePatchUser, updateUserInfo);
 
 // patch new user avatar (image link)
 userRouter.patch('/users/me/avatar', updateUserAvatar);
