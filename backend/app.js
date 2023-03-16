@@ -23,11 +23,17 @@ const { NOT_FOUND } = require('./utils');
 //set up error logging with winston
 const winston = require('winston');
 
-const logFile = new winston.transports.File({ filename: 'deleteme.log' });
-winston.add(logFile);
+const logger = winston.createLogger({
+  level: 'info', //this is the minimum log level
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [new winston.transports.File({ filename: 'deleteme.log' })],
+});
 
-winston.info('Getting started with Winston');
-winston.error('Here is an error message');
+logger.info('Restarting the server');
+logger.error('Here is an error messag2e');
 
 // set up the server, default port 3000
 const { PORT = 3000 } = process.env;
