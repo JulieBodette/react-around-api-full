@@ -23,9 +23,8 @@ const { NOT_FOUND } = require('./utils');
 //set up error logging with winston
 const winston = require('winston');
 
-const consoleTransport = new winston.transports.Console();
-
-winston.add(consoleTransport);
+const logFile = new winston.transports.File({ filename: 'deleteme.log' });
+winston.add(logFile);
 
 winston.info('Getting started with Winston');
 winston.error('Here is an error message');
