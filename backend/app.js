@@ -20,26 +20,7 @@ const { createUser, login } = require('./controllers/users');
 // import error codes
 const { NOT_FOUND } = require('./utils');
 
-//set up error logging with winston
-const winston = require('winston');
-
-const requestlogger = winston.createLogger({
-  level: 'info', // this is the minimum log level
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.json()
-  ),
-  transports: [new winston.transports.File({ filename: 'request.log' })],
-});
-
-const errorlogger = winston.createLogger({
-  level: 'error', // this is the minimum log level- it will not log "less important" stuff
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.json()
-  ),
-  transports: [new winston.transports.File({ filename: 'error.log' })],
-});
+const { requestlogger, errorlogger } = require('./loggers');
 
 requestlogger.info('Restarting the server');
 errorlogger.error('Here is an example error message');
