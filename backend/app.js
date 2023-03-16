@@ -20,6 +20,16 @@ const { createUser, login } = require('./controllers/users');
 // import error codes
 const { NOT_FOUND } = require('./utils');
 
+//set up error logging with winston
+const winston = require('winston');
+
+const consoleTransport = new winston.transports.Console();
+
+winston.add(consoleTransport);
+
+winston.info('Getting started with Winston');
+winston.error('Here is an error message');
+
 // set up the server, default port 3000
 const { PORT = 3000 } = process.env;
 const app = express();
