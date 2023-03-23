@@ -6,11 +6,15 @@ const {
   ServerError,
   NotAuthorized,
 } = require('../errors');
+const { requestlogger } = require('../loggers');
 
 // getCards returns all cards
 const getCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send({ data: cards })) // returns to the client all the cards
+    .then((cards) => {
+      res.send({ data: cards });
+      requestlogger.info('User requested cards: ' + cards);
+    }) // returns to the client all the cards
     .catch((err) => next(new ServerError(err.message)));
   // err is an object so we use err.message to get the message string
 };

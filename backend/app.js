@@ -20,10 +20,9 @@ const { createUser, login } = require('./controllers/users');
 // import error codes
 const { NOT_FOUND } = require('./utils');
 
-const { requestlogger, errorlogger } = require('./loggers');
+const { requestlogger } = require('./loggers');
 
 requestlogger.info('Restarting the server');
-errorlogger.error('Here is an example error message');
 
 // set up the server, default port 3000
 const { PORT = 3000 } = process.env;
