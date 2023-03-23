@@ -12,9 +12,9 @@ const { requestlogger } = require('../loggers');
 const getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => {
-      res.send({ data: cards });
-      requestlogger.info('User requested cards: ' + cards);
-    }) // returns to the client all the cards
+      res.send({ data: cards }); // returns to the client all the cards
+      requestlogger.info('Client requested cards: ' + cards);
+    })
     .catch((err) => next(new ServerError(err.message)));
   // err is an object so we use err.message to get the message string
 };
@@ -24,7 +24,10 @@ const createCard = (req, res, next) => {
   const owner = req.user._id;
   const { name, link } = req.body; // get name etc out of the request body
   Card.create({ name, link, owner })
-    .then((card) => res.send(card)) // returns to the client the user they just created
+    .then((card) => {
+      res.send(card); // returns to the client the user they just created
+      requestlogger.info('Client created card: ' + card);
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new InvalidInput(err.message));
@@ -52,6 +55,10 @@ const deleteCard = (req, res, next) => {
         throw new Error('Forbidden');
       } else {
         // delete the card
+        requestlogger.info(
+          'Card will be deleted if it exists. Client is attempting to delete card: ' +
+            card
+        );
         return Card.findByIdAndDelete(req.params.id).orFail();
         // throws an error if card does not exist
       }
@@ -90,7 +97,10 @@ const likeCard = (req, res, next) => {
     // without this, the user would get the card with the old list of likes
     // (the old list does not include the like they just added with this api call)
     .orFail() // throw an error if the card is null/ no card with that ID exists
-    .then((card) => res.send({ card }))
+    .then((card) => {
+      res.send({ card });
+      requestlogger.info('Client liked card: ' + card);
+    })
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new InvalidInput('Invalid card ID'));
@@ -113,7 +123,10 @@ const dislikeCard = (req, res, next) => {
   )
     // {new:true} is in the options object, it makes sure the client gets the updated card
     .orFail() // throws an error if card does not exist
-    .then((card) => res.send({ card }))
+    .then((card) => {
+      res.send({ card });
+      requestlogger.info('Client disliked card: ' + card);
+    })
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new InvalidInput('Invalid card ID'));
