@@ -1,6 +1,9 @@
 class Api {
-  constructor({ baseUrl, headers }) {
-    this._baseUrl = baseUrl;
+  constructor({ headers }) {
+    this._baseUrl =
+      process.env.NODE_ENV === 'production'
+        ? 'deployed-backend-url'
+        : 'http://localhost:3000';
     this._headers = headers;
   }
 

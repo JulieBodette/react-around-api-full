@@ -48,7 +48,6 @@ function App() {
   //create an object of the API class. This code runs once, on page load
   //If the user is not logged in, token will be null.
   const apiObj = new Api({
-    baseUrl: 'http://localhost:3000',
     headers: {
       authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
