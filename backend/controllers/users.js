@@ -1,3 +1,4 @@
+require('dotenv').config(); //access .env file
 const bcryptjs = require('bcryptjs'); // importing bcrypt- need it to hash passwords
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -32,7 +33,7 @@ const login = (req, res, next) => {
       }
       // if we got here, password is correct
       requestlogger.info('Client logged in: ' + user);
-      const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
         expiresIn: '7d',
       }); // token is the payload. after the auth function (see auth.js), access it using req.user
 
