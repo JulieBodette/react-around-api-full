@@ -1,6 +1,6 @@
 const BASEURL =
   process.env.NODE_ENV === 'production'
-    ? 'http://api.juliebook.students.nomoredomainssbs.ru'
+    ? 'https://api.juliebook.students.nomoredomainssbs.ru'
     : 'http://localhost:3000';
 const HEADERS = { 'Content-Type': 'application/json' };
 
