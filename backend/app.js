@@ -30,6 +30,7 @@ const app = express();
 
 app.use(helmet()); // use helmet to make server more secure
 app.use(cors());
+app.options('*', cors()); //enable requests for all routes
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
