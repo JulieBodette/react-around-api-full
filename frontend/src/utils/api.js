@@ -2,7 +2,7 @@ class Api {
   constructor({ headers }) {
     this._baseUrl =
       process.env.NODE_ENV === 'production'
-        ? 'api.juliebook.students.nomoredomainssbs.ru'
+        ? 'https://api.juliebook.students.nomoredomainssbs.ru'
         : 'http://localhost:3000';
     this._headers = headers;
   }
