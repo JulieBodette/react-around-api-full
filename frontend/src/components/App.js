@@ -140,7 +140,7 @@ function App() {
 
   function handleUpdateUser(info) {
     apiObj
-      .patchUserInfo(info)
+      .patchUserInfo(info, token)
       .then((userInfoResponse) => {
         //we do these 2 commands in 1 .then statement because they don't have to be done sequentially
         setCurrentUser(userInfoResponse);
