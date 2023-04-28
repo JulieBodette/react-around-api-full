@@ -33,9 +33,16 @@ const login = (req, res, next) => {
       }
       // if we got here, password is correct
       requestlogger.info('Client logged in: ' + user);
-      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: '7d',
-      }); // token is the payload. after the auth function (see auth.js), access it using req.user
+      const token = jwt.sign(
+        { _id: user._id },
+        process.env.NODE_ENV === 'production'
+          ? process.env.JWT_SECRET
+          : 'some-secret-key',
+        {
+          expiresIn: '7d',
+        }
+      ); // token is the payload. after the auth function (see auth.js), access it using req.user
+      // if in production mode, read JWT_SECRET key from the .env file. Otherwise use the string 'some-secret-key'.
 
       res.status(200).send({ token });
       // could also do res.send(token);- same thing, status is 200 by default
