@@ -1,6 +1,6 @@
-//import the celebrate validators
-const { ValidatePatchUser } = require('../middleware/validation.js');
 const userRouter = require('express').Router(); // create a router
+// import the celebrate validators
+const { ValidatePatchUser } = require('../middleware/validation');
 const {
   getCurrentUser,
   getUsers,

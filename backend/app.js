@@ -5,12 +5,12 @@ const helmet = require('helmet');
 const { default: mongoose } = require('mongoose');
 // limit the rate to prevent DOS attacks
 const rateLimit = require('express-rate-limit');
-//celebrate error handler
+// celebrate error handler
 const { errors } = require('celebrate');
-//custom validation functions ( I made them using joi and celebrate)
-const { ValidateUser } = require('./middleware/validation.js');
-// import the routers from cards.js and users.js
+// custom validation functions ( I made them using joi and celebrate)
 const cors = require('cors');
+const { ValidateUser } = require('./middleware/validation');
+// import the routers from cards.js and users.js
 const cardsRouter = require('./routes/cards');
 const userRouter = require('./routes/users');
 
@@ -30,7 +30,7 @@ const app = express();
 
 app.use(helmet()); // use helmet to make server more secure
 app.use(cors());
-app.options('*', cors()); //enable requests for all routes
+app.options('*', cors()); // enable requests for all routes
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -70,9 +70,7 @@ app.use(errors());
 // and 500 (general server error- the server's mistake)
 // order is important- we check to see if it's 404 error
 // and if it is not, it must be 500 error
-app.use((req, res) =>
-  res.status(NOT_FOUND).send({ message: 'Requested resource not found' })
-);
+app.use((req, res) => res.status(NOT_FOUND).send({ message: 'Requested resource not found' }));
 
 app.use((err, req, res, next) => {
   // if an error has no status, display 500

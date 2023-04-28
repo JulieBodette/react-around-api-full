@@ -1,5 +1,5 @@
-const Card = require('../models/card');
 const { ObjectId } = require('mongodb');
+const Card = require('../models/card');
 const {
   InvalidInput,
   NotFound,
@@ -13,7 +13,7 @@ const getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => {
       res.send({ data: cards }); // returns to the client all the cards
-      requestlogger.info('Client requested cards: ' + cards);
+      requestlogger.info(`Client requested cards: ${cards}`);
     })
     .catch((err) => next(new ServerError(err.message)));
   // err is an object so we use err.message to get the message string
@@ -26,7 +26,7 @@ const createCard = (req, res, next) => {
   Card.create({ name, link, owner })
     .then((card) => {
       res.send(card); // returns to the client the user they just created
-      requestlogger.info('Client created card: ' + card);
+      requestlogger.info(`Client created card: ${card}`);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -48,7 +48,8 @@ const deleteCard = (req, res, next) => {
   // req.user._id is the id of the current user/the user sending the request
   Card.findById(req.params.id)
     .then((card) => {
-      const userId = ObjectId(req.user._id); // convert to a mongodb objectid so that we can compare it
+      const userId = ObjectId(req.user._id);
+      // convert to a mongodb objectid so that we can compare it
       if (!userId.equals(card.owner)) {
         // must use .equals() to compare; == does not work
         // the card does not belong to current user-they do not have permission to delete it
@@ -56,8 +57,7 @@ const deleteCard = (req, res, next) => {
       } else {
         // delete the card
         requestlogger.info(
-          'Card will be deleted if it exists. Client is attempting to delete card: ' +
-            card
+          `Card will be deleted if it exists. Client is attempting to delete card: ${card}`,
         );
         return Card.findByIdAndDelete(req.params.id).orFail();
         // throws an error if card does not exist
@@ -69,8 +69,8 @@ const deleteCard = (req, res, next) => {
       if (err.message === 'Forbidden') {
         next(
           new NotAuthorized(
-            'That card does not belong to that user. They are not authorized to delete it.'
-          )
+            'That card does not belong to that user. They are not authorized to delete it.',
+          ),
         );
       } else if (err.name === 'CastError') {
         next(new InvalidInput('Invalid card ID'));
@@ -91,7 +91,7 @@ const likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     // {new:true} is in the options object, it makes sure the client gets the updated card
     // without this, the user would get the card with the old list of likes
@@ -99,7 +99,7 @@ const likeCard = (req, res, next) => {
     .orFail() // throw an error if the card is null/ no card with that ID exists
     .then((card) => {
       res.send({ card });
-      requestlogger.info('Client liked card: ' + card);
+      requestlogger.info(`Client liked card: ${card}`);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -119,13 +119,13 @@ const dislikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } }, // remove _id from the array
-    { new: true }
+    { new: true },
   )
     // {new:true} is in the options object, it makes sure the client gets the updated card
     .orFail() // throws an error if card does not exist
     .then((card) => {
       res.send({ card });
-      requestlogger.info('Client disliked card: ' + card);
+      requestlogger.info(`Client disliked card: ${card}`);
     })
     .catch((err) => {
       if (err.name === 'CastError') {

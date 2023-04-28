@@ -1,4 +1,4 @@
-require('dotenv').config(); //access .env file
+require('dotenv').config(); // access .env file
 const bcryptjs = require('bcryptjs'); // importing bcrypt- need it to hash passwords
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -32,7 +32,7 @@ const login = (req, res, next) => {
         // If the password is incorrect, fire the catch block with an error
       }
       // if we got here, password is correct
-      requestlogger.info('Client logged in: ' + user);
+      requestlogger.info(`Client logged in: ${user}`);
       const token = jwt.sign(
         { _id: user._id },
         process.env.NODE_ENV === 'production'
@@ -40,9 +40,10 @@ const login = (req, res, next) => {
           : 'some-secret-key',
         {
           expiresIn: '7d',
-        }
+        },
       ); // token is the payload. after the auth function (see auth.js), access it using req.user
-      // if in production mode, read JWT_SECRET key from the .env file. Otherwise use the string 'some-secret-key'.
+      // if in production mode, read JWT_SECRET key from the .env file.
+      // Otherwise use the string 'some-secret-key'.
 
       res.status(200).send({ token });
       // could also do res.send(token);- same thing, status is 200 by default
@@ -55,21 +56,21 @@ const login = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body; // get name etc out of the request body
+  const {
+    name, about, avatar, email, password,
+  } = req.body; // get name etc out of the request body
   bcryptjs
     .hash(password, 10)
-    .then((hash) =>
-      User.create({
-        name,
-        about,
-        avatar,
-        email,
-        password: hash,
-      })
-    )
+    .then((hash) => User.create({
+      name,
+      about,
+      avatar,
+      email,
+      password: hash,
+    }))
     .then((user) => {
       res.send({ user }); // returns to the client the user they just created
-      requestlogger.info('Client created new user: ' + user);
+      requestlogger.info(`Client created new user: ${user}`);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -87,7 +88,7 @@ const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => {
       res.send({ data: users }); // returns to the client all the users
-      requestlogger.info('Client requested users: ' + users);
+      requestlogger.info(`Client requested users: ${users}`);
     })
     .catch((err) => next(new ServerError(err.message)));
   // err is an object so we use err.message to get the message string
@@ -98,7 +99,7 @@ const getUser = (req, res, next) => {
     .orFail() // throws an error if user does not exist
     .then((user) => {
       res.send({ data: user }); // returns to the client the user with given id
-      requestlogger.info('Client requested user: ' + user);
+      requestlogger.info(`Client requested user: ${user}`);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -119,7 +120,7 @@ const getCurrentUser = (req, res, next) => {
     // throws an error if user does not exist
     .then((user) => {
       res.send({ data: user }); // returns to the client the user with specified id
-      requestlogger.info('Client requested user: ' + user);
+      requestlogger.info(`Client requested user: ${user}`);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -142,7 +143,7 @@ const updateUserInfo = (req, res, next) => {
       new: true, // the then handler receives the updated entry as input
       runValidators: true, // the data will be validated before the update
       upsert: true, // if the user entry wasn't found, it will be created
-    }
+    },
   )
     .orFail() // throws an error if user does not exist
     .then((user) => {
@@ -151,7 +152,7 @@ const updateUserInfo = (req, res, next) => {
         next(new InvalidInput('Error: You did not include an about field'));
       } else {
         res.send({ data: user });
-        requestlogger.info('Updated user info: ' + user);
+        requestlogger.info(`Updated user info: ${user}`);
       }
     })
     .catch((err) => {
@@ -163,8 +164,8 @@ const updateUserInfo = (req, res, next) => {
       } else if (err.name === 'ValidationError') {
         next(
           new InvalidInput(
-            'Invalid input. Make sure the about field is minimum 2 and max 30 characters.'
-          )
+            'Invalid input. Make sure the about field is minimum 2 and max 30 characters.',
+          ),
         );
       } else {
         next(new ServerError(err.message));
@@ -181,7 +182,7 @@ const updateUserAvatar = (req, res, next) => {
       new: true, // the then handler receives the updated entry as input
       runValidators: true, // the data will be validated before the update
       upsert: true, // if the user entry wasn't found, it will be created
-    }
+    },
   )
     .then((user) => {
       // if the json that the client sent does not have an about ie {"avatar":"http://link-to-image"}
@@ -189,7 +190,7 @@ const updateUserAvatar = (req, res, next) => {
         next(new InvalidInput('Error: You did not include an avatar field'));
       } else {
         res.send({ data: user });
-        requestlogger.info('Updated user avatar: ' + user);
+        requestlogger.info(`Updated user avatar: ${user}`);
       }
     })
     .catch((err) => {
@@ -201,8 +202,8 @@ const updateUserAvatar = (req, res, next) => {
       } else if (err.name === 'ValidationError') {
         next(
           new InvalidInput(
-            'Invalid input. Make sure the avatar field is a valid url'
-          )
+            'Invalid input. Make sure the avatar field is a valid url',
+          ),
         );
       } else {
         next(new ServerError(err.message));

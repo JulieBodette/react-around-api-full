@@ -1,10 +1,11 @@
-//import the celebrate validators
+const cardRouter = require('express').Router(); // create a router
+// import the celebrate validators
 const {
   ValidateCard,
   ValidateLikeCard,
   ValidateDeleteCard,
-} = require('../middleware/validation.js');
-const cardRouter = require('express').Router(); // create a router
+} = require('../middleware/validation');
+
 const {
   getCards,
   createCard,

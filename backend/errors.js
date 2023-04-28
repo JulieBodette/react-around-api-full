@@ -25,7 +25,7 @@ class WrongUsernamePassword extends Error {
     super(message);
     this.statusCode = 401;
     errorlogger.error(
-      'A user attempted to log in with the wrong username or password. (401 error)'
+      'A user attempted to log in with the wrong username or password. (401 error)',
     );
   }
 }
@@ -36,7 +36,7 @@ class NotAuthorized extends Error {
     super(message);
     this.statusCode = 401;
     errorlogger.error(
-      'A user attempted to reach a page that they are not authorized to access. (401 error)'
+      'A user attempted to reach a page that they are not authorized to access. (401 error)',
     );
   }
 }
@@ -47,7 +47,7 @@ class NotFound extends Error {
     super(message);
     this.statusCode = NOT_FOUND;
     errorlogger.error(
-      'A user attempted to reach a page that does not exist. (404 error)'
+      'A user attempted to reach a page that does not exist. (404 error)',
     );
   }
 }
