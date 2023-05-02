@@ -40,7 +40,7 @@ const login = (req, res, next) => {
           : 'some-secret-key',
         {
           expiresIn: '7d',
-        },
+        }
       ); // token is the payload. after the auth function (see auth.js), access it using req.user
       // if in production mode, read JWT_SECRET key from the .env file.
       // Otherwise use the string 'some-secret-key'.
@@ -56,18 +56,18 @@ const login = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const {
-    name, about, avatar, email, password,
-  } = req.body; // get name etc out of the request body
+  const { name, about, avatar, email, password } = req.body; // get name etc out of the request body
   bcryptjs
     .hash(password, 10)
-    .then((hash) => User.create({
-      name,
-      about,
-      avatar,
-      email,
-      password: hash,
-    }))
+    .then((hash) =>
+      User.create({
+        name,
+        about,
+        avatar,
+        email,
+        password: hash,
+      })
+    )
     .then((user) => {
       res.send({ user }); // returns to the client the user they just created
       requestlogger.info(`Client created new user: ${user}`);
@@ -142,18 +142,12 @@ const updateUserInfo = (req, res, next) => {
     {
       new: true, // the then handler receives the updated entry as input
       runValidators: true, // the data will be validated before the update
-      upsert: true, // if the user entry wasn't found, it will be created
-    },
+    }
   )
     .orFail() // throws an error if user does not exist
     .then((user) => {
-      // if the json that the client sent does not have an about ie {"about":"info here"}
-      if (!req.body.about) {
-        next(new InvalidInput('Error: You did not include an about field'));
-      } else {
-        res.send({ data: user });
-        requestlogger.info(`Updated user info: ${user}`);
-      }
+      res.send({ data: user });
+      requestlogger.info(`Updated user info: ${user}`);
     })
     .catch((err) => {
       // invalid user id
@@ -164,8 +158,8 @@ const updateUserInfo = (req, res, next) => {
       } else if (err.name === 'ValidationError') {
         next(
           new InvalidInput(
-            'Invalid input. Make sure the about field is minimum 2 and max 30 characters.',
-          ),
+            'Invalid input. Make sure the about field is minimum 2 and max 30 characters.'
+          )
         );
       } else {
         next(new ServerError(err.message));
@@ -181,17 +175,11 @@ const updateUserAvatar = (req, res, next) => {
     {
       new: true, // the then handler receives the updated entry as input
       runValidators: true, // the data will be validated before the update
-      upsert: true, // if the user entry wasn't found, it will be created
-    },
+    }
   )
     .then((user) => {
-      // if the json that the client sent does not have an about ie {"avatar":"http://link-to-image"}
-      if (!req.body.avatar) {
-        next(new InvalidInput('Error: You did not include an avatar field'));
-      } else {
-        res.send({ data: user });
-        requestlogger.info(`Updated user avatar: ${user}`);
-      }
+      res.send({ data: user });
+      requestlogger.info(`Updated user avatar: ${user}`);
     })
     .catch((err) => {
       // invalid user id
@@ -202,8 +190,8 @@ const updateUserAvatar = (req, res, next) => {
       } else if (err.name === 'ValidationError') {
         next(
           new InvalidInput(
-            'Invalid input. Make sure the avatar field is a valid url',
-          ),
+            'Invalid input. Make sure the avatar field is a valid url'
+          )
         );
       } else {
         next(new ServerError(err.message));
