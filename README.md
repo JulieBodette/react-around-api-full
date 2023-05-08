@@ -7,4 +7,6 @@ Frontend code is located in the frontend folder; backend code is located in the 
 
 The live website is hosted at: https://juliebook.students.nomoredomainssbs.ru/#/
 
+The deployed backend server is at: api.juliebook.students.nomoredomainssbs.ru
+
 I worked really hard on this project and learned a lot...please enjoy!
