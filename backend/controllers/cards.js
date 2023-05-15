@@ -47,6 +47,7 @@ const deleteCard = (req, res, next) => {
 
   // req.user._id is the id of the current user/the user sending the request
   Card.findById(req.params.id)
+    .orFail() // throw an error if the card is null/ no card with that ID exists
     .then((card) => {
       const userId = ObjectId(req.user._id);
       // convert to a mongodb objectid so that we can compare it
@@ -57,7 +58,7 @@ const deleteCard = (req, res, next) => {
       } else {
         // delete the card
         requestlogger.info(
-          `Card will be deleted if it exists. Client is attempting to delete card: ${card}`,
+          `Card will be deleted if it exists. Client is attempting to delete card: ${card}`
         );
         return Card.findByIdAndDelete(req.params.id).orFail();
         // throws an error if card does not exist
@@ -69,8 +70,8 @@ const deleteCard = (req, res, next) => {
       if (err.message === 'Forbidden') {
         next(
           new NotAuthorized(
-            'That card does not belong to that user. They are not authorized to delete it.',
-          ),
+            'That card does not belong to that user. They are not authorized to delete it.'
+          )
         );
       } else if (err.name === 'CastError') {
         next(new InvalidInput('Invalid card ID'));
@@ -91,7 +92,7 @@ const likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true },
+    { new: true }
   )
     // {new:true} is in the options object, it makes sure the client gets the updated card
     // without this, the user would get the card with the old list of likes
@@ -119,7 +120,7 @@ const dislikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } }, // remove _id from the array
-    { new: true },
+    { new: true }
   )
     // {new:true} is in the options object, it makes sure the client gets the updated card
     .orFail() // throws an error if card does not exist
