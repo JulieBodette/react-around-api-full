@@ -7,6 +7,7 @@ const {
   WrongUsernamePassword,
   NotFound,
   ServerError,
+  Unique,
 } = require('../errors');
 const { requestlogger } = require('../loggers');
 
@@ -73,7 +74,10 @@ const createUser = (req, res, next) => {
       requestlogger.info(`Client created new user: ${user}`);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.code == 11000) {
+        next(new Unique(err.message));
+        // 409 error- email address must be unique (2 accounts cannot have same email address)
+      } else if (err.name === 'ValidationError') {
         next(new InvalidInput(err.message));
         // error status 400 because user sent invalid input
       } else {
