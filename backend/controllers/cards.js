@@ -49,7 +49,7 @@ const deleteCard = (req, res, next) => {
   Card.findById(req.params.id)
     .orFail() // throw an error if the card is null/ no card with that ID exists
     .then((card) => {
-      const userId = ObjectId(req.user._id);
+      const userId = new ObjectId(req.user._id);
       // convert to a mongodb objectid so that we can compare it
       if (!userId.equals(card.owner)) {
         // must use .equals() to compare; == does not work
