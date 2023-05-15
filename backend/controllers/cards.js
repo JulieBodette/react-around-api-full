@@ -1,11 +1,6 @@
 const { ObjectId } = require('mongodb');
 const Card = require('../models/card');
-const {
-  InvalidInput,
-  NotFound,
-  ServerError,
-  NotAuthorized,
-} = require('../errors');
+const { InvalidInput, NotFound, ServerError, Forbidden } = require('../errors');
 const { requestlogger } = require('../loggers');
 
 // getCards returns all cards
@@ -69,7 +64,7 @@ const deleteCard = (req, res, next) => {
     .catch((err) => {
       if (err.message === 'Forbidden') {
         next(
-          new NotAuthorized(
+          new Forbidden(
             'That card does not belong to that user. They are not authorized to delete it.'
           )
         );
