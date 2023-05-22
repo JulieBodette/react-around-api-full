@@ -9,7 +9,6 @@ const {
   ServerError,
   Unique,
 } = require('../errors');
-const { requestlogger } = require('../loggers');
 
 const login = (req, res, next) => {
   const { email, password } = req.body; // get email and password out of the request body
@@ -33,7 +32,6 @@ const login = (req, res, next) => {
         // If the password is incorrect, fire the catch block with an error
       }
       // if we got here, password is correct
-      requestlogger.info(`Client logged in: ${user}`);
       const token = jwt.sign(
         { _id: user._id },
         process.env.NODE_ENV === 'production'
@@ -71,7 +69,6 @@ const createUser = (req, res, next) => {
     )
     .then((user) => {
       res.send({ user }); // returns to the client the user they just created
-      requestlogger.info(`Client created new user: ${user}`);
     })
     .catch((err) => {
       if (err.code === 11000) {
@@ -92,7 +89,6 @@ const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => {
       res.send({ data: users }); // returns to the client all the users
-      requestlogger.info(`Client requested users: ${users}`);
     })
     .catch((err) => next(new ServerError(err.message)));
   // err is an object so we use err.message to get the message string
@@ -103,7 +99,6 @@ const getUser = (req, res, next) => {
     .orFail() // throws an error if user does not exist
     .then((user) => {
       res.send({ data: user }); // returns to the client the user with given id
-      requestlogger.info(`Client requested user: ${user}`);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -124,7 +119,6 @@ const getCurrentUser = (req, res, next) => {
     // throws an error if user does not exist
     .then((user) => {
       res.send({ data: user }); // returns to the client the user with specified id
-      requestlogger.info(`Client requested user: ${user}`);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -151,7 +145,6 @@ const updateUserInfo = (req, res, next) => {
     .orFail() // throws an error if user does not exist
     .then((user) => {
       res.send({ data: user });
-      requestlogger.info(`Updated user info: ${user}`);
     })
     .catch((err) => {
       // invalid user id
@@ -183,7 +176,6 @@ const updateUserAvatar = (req, res, next) => {
   )
     .then((user) => {
       res.send({ data: user });
-      requestlogger.info(`Updated user avatar: ${user}`);
     })
     .catch((err) => {
       // invalid user id
