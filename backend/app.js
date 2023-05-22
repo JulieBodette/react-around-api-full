@@ -20,9 +20,19 @@ const { createUser, login } = require('./controllers/users');
 // import error codes
 const { NOT_FOUND } = require('./utils');
 
+const winston = require('winston');
+const expressWinston = require('express-winston');
 const { requestlogger } = require('./loggers');
 
 requestlogger.info('Restarting the server');
+
+const winstonRequestLogger = expressWinston.logger({
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: 'request.log' }),
+  ],
+  format: winston.format.json(),
+}); // create the request logger- it will log things automatically
 
 // set up the server, default port 3000
 const { PORT = 3000 } = process.env;
@@ -31,6 +41,8 @@ const app = express();
 app.use(helmet()); // use helmet to make server more secure
 app.use(cors());
 app.options('*', cors()); // enable requests for all routes
+
+app.use(winstonRequestLogger); // request logger will log things automatically
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -70,7 +82,9 @@ app.use(errors());
 // and 500 (general server error- the server's mistake)
 // order is important- we check to see if it's 404 error
 // and if it is not, it must be 500 error
-app.use((req, res) => res.status(NOT_FOUND).send({ message: 'Requested resource not found' }));
+app.use((req, res) =>
+  res.status(NOT_FOUND).send({ message: 'Requested resource not found' })
+);
 
 app.use((err, req, res, next) => {
   // if an error has no status, display 500
