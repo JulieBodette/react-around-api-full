@@ -22,9 +22,10 @@ export function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
     onAddPlace({
       name: imageName,
       link: imageLink,
-      likes: [], //starts with no likes
-      owner: currentUser,
     });
+    // only pass name and link, not owner and likes
+    // owner is passed via the header
+    // likes are initialized to emplty array, I don't need to pass that info.
   }
 
   //set the image name and link to empty strings when the popup is opened/closed

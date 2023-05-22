@@ -58,9 +58,6 @@ module.exports.ValidateCard = celebrate({
       'string.empty': 'The "link" field must be filled in',
       'string.uri': 'The "link" field must be a valid url',
     }),
-    likes: Joi.array().required(),
-    owner: Joi.object().required(),
-    createdAt: Joi.date(),
   }),
 });
 
