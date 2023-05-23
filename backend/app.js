@@ -9,7 +9,10 @@ const rateLimit = require('express-rate-limit');
 const { errors } = require('celebrate');
 // custom validation functions ( I made them using joi and celebrate)
 const cors = require('cors');
-const { ValidateUser } = require('./middleware/validation');
+const {
+  ValidateUserOnLogin,
+  ValidateUserOnCreate,
+} = require('./middleware/validation');
 // import the routers from cards.js and users.js
 const cardsRouter = require('./routes/cards');
 const userRouter = require('./routes/users');
@@ -65,8 +68,8 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/signin', ValidateUser, login);
-app.post('/signup', ValidateUser, createUser); // POST a new user to the database. include json with name about, link, email, password
+app.post('/signin', ValidateUserOnLogin, login);
+app.post('/signup', ValidateUserOnCreate, createUser); // POST a new user to the database. include json with name about, link, email, password
 
 // authorization
 app.use(auth);
