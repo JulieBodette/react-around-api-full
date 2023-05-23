@@ -1,6 +1,9 @@
 const userRouter = require('express').Router(); // create a router
 // import the celebrate validators
-const { ValidatePatchUser } = require('../middleware/validation');
+const {
+  ValidatePatchUserProfile,
+  ValidatePatchUserAvatar,
+} = require('../middleware/validation');
 const {
   getCurrentUser,
   getUsers,
@@ -22,9 +25,9 @@ userRouter.get('/users/me', getCurrentUser);
 userRouter.get('/users/:id', getUser);
 
 // patch new user description ("about")
-userRouter.patch('/users/me', ValidatePatchUser, updateUserInfo);
+userRouter.patch('/users/me', ValidatePatchUserProfile, updateUserInfo);
 
 // patch new user avatar (image link)
-userRouter.patch('/users/me/avatar', ValidatePatchUser, updateUserAvatar);
+userRouter.patch('/users/me/avatar', ValidatePatchUserAvatar, updateUserAvatar);
 
 module.exports = userRouter;

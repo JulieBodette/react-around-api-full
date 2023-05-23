@@ -36,7 +36,25 @@ module.exports.ValidateUserOnLogin = celebrate({
   }),
 });
 
-module.exports.ValidatePatchUser = celebrate({
+module.exports.ValidatePatchUserProfile = celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().min(2).max(30).messages({
+      'string.min': 'The minimum length of the "name" field is 2',
+      'string.max': 'The maximum length of the "name" field is 30',
+    }),
+    about: Joi.string().min(2).max(30).messages({
+      'string.min': 'The minimum length of the "name" field is 2',
+      'string.max': 'The maximum length of the "name" field is 30',
+    }),
+    avatar: Joi.string().custom(validateURL).messages({
+      'string.uri': 'The "avatar" field must be a valid url',
+    }),
+    email: Joi.string(),
+    password: Joi.string(),
+  }),
+});
+
+module.exports.ValidatePatchUserAvatar = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).messages({
       'string.min': 'The minimum length of the "name" field is 2',
