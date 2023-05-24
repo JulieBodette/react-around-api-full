@@ -3,7 +3,7 @@
 // If everything's fine with the token, the middleware should
 // add the token payload to the user object and call next()
 const jwt = require('jsonwebtoken');
-const { NotAuthorized } = require('../errors');
+const { NotAuthorized } = require('../errors/errors');
 
 const auth = (req, res, next) => {
   const { authorization } = req.headers;
@@ -22,7 +22,7 @@ const auth = (req, res, next) => {
       token,
       process.env.NODE_ENV === 'production'
         ? process.env.JWT_SECRET
-        : 'some-secret-key',
+        : 'some-secret-key'
     );
     // if in production mode, read JWT_SECRET key from the .env file.
     // Otherwise use the string 'some-secret-key'.

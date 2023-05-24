@@ -20,13 +20,10 @@ const userRouter = require('./routes/users');
 const { auth } = require('./middleware/auth');
 const { createUser, login } = require('./controllers/users');
 
-// import error codes
-const { NOT_FOUND } = require('./utils');
-
 const winston = require('winston');
 const expressWinston = require('express-winston');
 const { requestlogger } = require('./loggers');
-const { NotFound } = require('./errors');
+const { NotFound } = require('./errors/errors');
 
 requestlogger.info('Restarting the server');
 

@@ -8,7 +8,7 @@ const {
   NotFound,
   ServerError,
   Unique,
-} = require('../errors');
+} = require('../errors/errors');
 
 const login = (req, res, next) => {
   const { email, password } = req.body; // get email and password out of the request body

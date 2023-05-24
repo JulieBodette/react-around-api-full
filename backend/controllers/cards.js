@@ -1,6 +1,11 @@
 const { ObjectId } = require('mongodb');
 const Card = require('../models/card');
-const { InvalidInput, NotFound, ServerError, Forbidden } = require('../errors');
+const {
+  InvalidInput,
+  NotFound,
+  ServerError,
+  Forbidden,
+} = require('../errors/errors');
 
 // getCards returns all cards
 const getCards = (req, res, next) => {
