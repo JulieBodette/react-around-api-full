@@ -2,7 +2,7 @@ const cardRouter = require('express').Router(); // create a router
 // import the celebrate validators
 const {
   ValidateCard,
-  ValidateLikeCard,
+  ValidateCardId,
   ValidateDeleteCard,
 } = require('../middleware/validation');
 
@@ -23,8 +23,8 @@ cardRouter.post('/cards', ValidateCard, createCard);
 
 cardRouter.delete('/cards/:id', ValidateDeleteCard, deleteCard);
 
-cardRouter.put('/cards/:cardId/likes', ValidateLikeCard, likeCard);
+cardRouter.put('/cards/:cardId/likes', ValidateCardId, likeCard);
 
-cardRouter.delete('/cards/:cardId/likes', ValidateLikeCard, dislikeCard);
+cardRouter.delete('/cards/:cardId/likes', ValidateCardId, dislikeCard);
 
 module.exports = cardRouter;

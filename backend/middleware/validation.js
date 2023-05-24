@@ -72,7 +72,7 @@ module.exports.ValidateCard = celebrate({
   }),
 });
 
-module.exports.ValidateLikeCard = celebrate({
+module.exports.ValidateCardId = celebrate({
   params: Joi.object().keys({
     cardId: Joi.string().length(24).hex().required().messages({
       'string.empty': 'The "cardId" field must be filled in',
