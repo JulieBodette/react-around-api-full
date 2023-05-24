@@ -23,7 +23,7 @@ const { createUser, login } = require('./controllers/users');
 const winston = require('winston');
 const expressWinston = require('express-winston');
 const { requestlogger } = require('./loggers');
-const { NotFound } = require('./errors/errors');
+const { NotFound } = require('./errors/notFound');
 
 requestlogger.info('Restarting the server');
 

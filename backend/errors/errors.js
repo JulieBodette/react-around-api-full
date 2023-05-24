@@ -1,19 +1,7 @@
-const { NOT_FOUND } = require('../utils');
 const { errorlogger } = require('../loggers');
 
 // how to call it
 // next(new InvalidInput('message goes here'))
-
-class NotFound extends Error {
-  // used for 404 errors
-  constructor(message) {
-    super(message);
-    this.statusCode = NOT_FOUND;
-    errorlogger.error(
-      'A user attempted to reach a page that does not exist. (404 error)'
-    );
-  }
-}
 
 class Forbidden extends Error {
   // used for 403 errors
@@ -38,7 +26,6 @@ class Unique extends Error {
 }
 
 module.exports = {
-  NotFound,
   Forbidden,
   Unique,
 };
