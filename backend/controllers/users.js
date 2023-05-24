@@ -66,7 +66,11 @@ const createUser = (req, res, next) => {
       })
     )
     .then((user) => {
-      res.send({ user }); // returns to the client the user they just created
+      delete user.password;
+
+      //destructure it then restructure
+      const { name, about, avatar, email, _id } = user;
+      res.send({ name, about, avatar, email, _id }); // returns to the client the user they just created
     })
     .catch((err) => {
       if (err.code === 11000) {
