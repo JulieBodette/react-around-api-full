@@ -26,6 +26,7 @@ const { NOT_FOUND } = require('./utils');
 const winston = require('winston');
 const expressWinston = require('express-winston');
 const { requestlogger } = require('./loggers');
+const { NotFound } = require('./errors');
 
 requestlogger.info('Restarting the server');
 
@@ -86,7 +87,10 @@ app.use(errors());
 // order is important- we check to see if it's 404 error
 // and if it is not, it must be 500 error
 app.use((req, res) =>
-  res.status(NOT_FOUND).send({ message: 'Requested resource not found' })
+  //res.status(NOT_FOUND).send({ message: 'Requested resource not found' })
+  {
+    throw new NotFound('Requested resource not found');
+  }
 );
 
 app.use((err, req, res, next) => {
