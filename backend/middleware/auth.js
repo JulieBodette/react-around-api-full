@@ -3,7 +3,7 @@
 // If everything's fine with the token, the middleware should
 // add the token payload to the user object and call next()
 const jwt = require('jsonwebtoken');
-const { NotAuthorized } = require('../errors/errors');
+const { NotAuthorized } = require('../errors/notAuthorized');
 
 const auth = (req, res, next) => {
   const { authorization } = req.headers;
