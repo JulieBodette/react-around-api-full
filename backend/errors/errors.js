@@ -1,16 +1,8 @@
-const { SERVER_ERROR, NOT_FOUND } = require('../utils');
+const { NOT_FOUND } = require('../utils');
 const { errorlogger } = require('../loggers');
 
 // how to call it
 // next(new InvalidInput('message goes here'))
-
-class ServerError extends Error {
-  constructor(message) {
-    super(message);
-    this.statusCode = SERVER_ERROR;
-    errorlogger.error('An error ocurred on the server. (500 error)');
-  }
-}
 
 class WrongUsernamePassword extends Error {
   // used for incorrect username and incorrect password
@@ -68,7 +60,6 @@ class Unique extends Error {
 }
 
 module.exports = {
-  ServerError,
   WrongUsernamePassword,
   NotFound,
   NotAuthorized,

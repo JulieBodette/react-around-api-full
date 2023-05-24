@@ -2,13 +2,9 @@ require('dotenv').config(); // access .env file
 const bcryptjs = require('bcryptjs'); // importing bcrypt- need it to hash passwords
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const {
-  WrongUsernamePassword,
-  NotFound,
-  ServerError,
-  Unique,
-} = require('../errors/errors');
+const { WrongUsernamePassword, NotFound, Unique } = require('../errors/errors');
 const { InvalidInput } = require('../errors/invalidInput');
+const { ServerError } = require('../errors/serverError');
 
 const login = (req, res, next) => {
   const { email, password } = req.body; // get email and password out of the request body
