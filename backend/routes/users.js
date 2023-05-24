@@ -3,6 +3,7 @@ const userRouter = require('express').Router(); // create a router
 const {
   ValidatePatchUserProfile,
   ValidatePatchUserAvatar,
+  ValidateUserId,
 } = require('../middleware/validation');
 const {
   getCurrentUser,
@@ -22,7 +23,7 @@ userRouter.get('/users', getUsers);
 userRouter.get('/users/me', getCurrentUser);
 
 // GET http://localhost:3000/users/8340d0ec33270a25f2413b69
-userRouter.get('/users/:id', getUser);
+userRouter.get('/users/:id', ValidateUserId, getUser);
 
 // patch new user description ("about")
 userRouter.patch('/users/me', ValidatePatchUserProfile, updateUserInfo);

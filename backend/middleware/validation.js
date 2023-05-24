@@ -80,6 +80,14 @@ module.exports.ValidateCardId = celebrate({
   }),
 });
 
+module.exports.ValidateUserId = celebrate({
+  params: Joi.object().keys({
+    cardId: Joi.string().length(24).hex().required().messages({
+      'string.empty': 'The "cardId" field must be filled in',
+    }),
+  }),
+});
+
 module.exports.ValidateDeleteCard = celebrate({
   params: Joi.object().keys({
     id: Joi.string().length(24).hex().required().messages({
