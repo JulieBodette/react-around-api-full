@@ -3,17 +3,6 @@ const { errorlogger } = require('../loggers');
 // how to call it
 // next(new InvalidInput('message goes here'))
 
-class Forbidden extends Error {
-  // used for 403 errors
-  constructor(message) {
-    super(message);
-    this.statusCode = 403;
-    errorlogger.error(
-      'User provided valid credentials. but based on who they are, they are not authorized to acess this page. (403 error)'
-    );
-  }
-}
-
 class Unique extends Error {
   // used for 409 errors
   constructor(message) {
@@ -26,6 +15,5 @@ class Unique extends Error {
 }
 
 module.exports = {
-  Forbidden,
   Unique,
 };

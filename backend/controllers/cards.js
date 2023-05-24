@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 const Card = require('../models/card');
-const { Forbidden } = require('../errors/errors');
+const { Forbidden } = require('../errors/forbidden');
 const { NotFound } = require('../errors/notFound');
 const { InvalidInput } = require('../errors/invalidInput');
 const { ServerError } = require('../errors/serverError');
