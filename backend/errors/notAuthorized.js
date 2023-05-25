@@ -9,7 +9,7 @@ class NotAuthorized extends Error {
     super(message);
     this.statusCode = 401;
     errorlogger.error(
-      'A user attempted to reach a page that they are not authorized to access. Try again with correct credientials. (401 error)'
+      'A user attempted to reach a page that they are not authorized to access. Try again with correct credientials. (401 error)',
     );
   }
 }

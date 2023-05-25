@@ -9,7 +9,7 @@ class WrongUsernamePassword extends Error {
     super(message);
     this.statusCode = 401;
     errorlogger.error(
-      'A user attempted to log in with the wrong username or password. (401 error)'
+      'A user attempted to log in with the wrong username or password. (401 error)',
     );
   }
 }

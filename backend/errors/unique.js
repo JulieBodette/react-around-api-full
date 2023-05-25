@@ -9,7 +9,7 @@ class Unique extends Error {
     super(message);
     this.statusCode = 409;
     errorlogger.error(
-      'The request could not be completed due to a conflict with the current state of the target resource. (409 error)'
+      'The request could not be completed due to a conflict with the current state of the target resource. (409 error)',
     );
   }
 }

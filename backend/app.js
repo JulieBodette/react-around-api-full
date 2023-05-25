@@ -9,6 +9,8 @@ const rateLimit = require('express-rate-limit');
 const { errors } = require('celebrate');
 // custom validation functions ( I made them using joi and celebrate)
 const cors = require('cors');
+const winston = require('winston');
+const expressWinston = require('express-winston');
 const {
   ValidateUserOnLogin,
   ValidateUserOnCreate,
@@ -20,8 +22,6 @@ const userRouter = require('./routes/users');
 const { auth } = require('./middleware/auth');
 const { createUser, login } = require('./controllers/users');
 
-const winston = require('winston');
-const expressWinston = require('express-winston');
 const { requestlogger } = require('./loggers');
 const { NotFound } = require('./errors/notFound');
 
@@ -83,12 +83,9 @@ app.use(errors());
 // and 500 (general server error- the server's mistake)
 // order is important- we check to see if it's 404 error
 // and if it is not, it must be 500 error
-app.use((req, res) =>
-  //res.status(NOT_FOUND).send({ message: 'Requested resource not found' })
-  {
-    throw new NotFound('Requested resource not found');
-  }
-);
+app.use(() => {
+  throw new NotFound('Requested resource not found');
+});
 
 app.use((err, req, res, next) => {
   // if an error has no status, display 500

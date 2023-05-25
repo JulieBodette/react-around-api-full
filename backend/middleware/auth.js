@@ -22,7 +22,7 @@ const auth = (req, res, next) => {
       token,
       process.env.NODE_ENV === 'production'
         ? process.env.JWT_SECRET
-        : 'some-secret-key'
+        : 'some-secret-key',
     );
     // if in production mode, read JWT_SECRET key from the .env file.
     // Otherwise use the string 'some-secret-key'.

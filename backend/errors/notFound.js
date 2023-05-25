@@ -10,7 +10,7 @@ class NotFound extends Error {
     super(message);
     this.statusCode = NOT_FOUND;
     errorlogger.error(
-      'A user attempted to reach a page that does not exist. (404 error)'
+      'A user attempted to reach a page that does not exist. (404 error)',
     );
   }
 }
