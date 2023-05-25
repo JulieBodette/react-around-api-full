@@ -37,7 +37,7 @@ const login = (req, res, next) => {
           : 'some-secret-key',
         {
           expiresIn: '7d',
-        }
+        },
       ); // token is the payload. after the auth function (see auth.js), access it using req.user
       // if in production mode, read JWT_SECRET key from the .env file.
       // Otherwise use the string 'some-secret-key'.
@@ -53,18 +53,18 @@ const login = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body; // get name etc out of the request body
+  const {
+    name, about, avatar, email, password,
+  } = req.body; // get name etc out of the request body
   bcryptjs
     .hash(password, 10)
-    .then((hash) =>
-      User.create({
-        name,
-        about,
-        avatar,
-        email,
-        password: hash,
-      })
-    )
+    .then((hash) => User.create({
+      name,
+      about,
+      avatar,
+      email,
+      password: hash,
+    }))
     .then(() => {
       // restructure the user- everything EXCEPT the password
       res.send({
@@ -144,7 +144,7 @@ const updateUserInfo = (req, res, next) => {
     {
       new: true, // the then handler receives the updated entry as input
       runValidators: true, // the data will be validated before the update
-    }
+    },
   )
     .orFail() // throws an error if user does not exist
     .then((user) => {
@@ -159,8 +159,8 @@ const updateUserInfo = (req, res, next) => {
       } else if (err.name === 'ValidationError') {
         next(
           new InvalidInput(
-            'Invalid input. Make sure the about field is minimum 2 and max 30 characters.'
-          )
+            'Invalid input. Make sure the about field is minimum 2 and max 30 characters.',
+          ),
         );
       } else {
         next(new ServerError(err.message));
@@ -176,7 +176,7 @@ const updateUserAvatar = (req, res, next) => {
     {
       new: true, // the then handler receives the updated entry as input
       runValidators: true, // the data will be validated before the update
-    }
+    },
   )
     .then((user) => {
       res.send({ data: user });
@@ -190,8 +190,8 @@ const updateUserAvatar = (req, res, next) => {
       } else if (err.name === 'ValidationError') {
         next(
           new InvalidInput(
-            'Invalid input. Make sure the avatar field is a valid url'
-          )
+            'Invalid input. Make sure the avatar field is a valid url',
+          ),
         );
       } else {
         next(new ServerError(err.message));
